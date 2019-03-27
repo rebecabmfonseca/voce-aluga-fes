@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControleCliente">
+<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleCliente">
    <children>
       <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:" />
       <Text layoutX="56.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Clientes">
@@ -25,7 +25,7 @@
       <DatePicker layoutX="160.0" layoutY="213.0" />
       <Text layoutX="14.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço:" />
       <TextField layoutX="100.0" layoutY="258.0" prefHeight="26.0" prefWidth="258.0" />
-      <Button layoutX="160.0" layoutY="328.0" mnemonicParsing="false" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
+      <Button fx:id="idSalvar" layoutX="160.0" layoutY="328.0" mnemonicParsing="false" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>

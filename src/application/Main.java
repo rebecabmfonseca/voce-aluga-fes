@@ -13,7 +13,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException{
 		try {
-			Pane root = new FXMLLoader().load(getClass().getResource("view/TelaInicial.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/TelaInicial.fxml"));
+			Pane root = fxmlLoader.load();
 			Scene scene = new Scene(root,400,400);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Você Aluga");
