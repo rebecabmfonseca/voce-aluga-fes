@@ -16,7 +16,7 @@ public class ControleInicial implements Initializable{
 	public void irPaginaCliente(ActionEvent a) throws IOException{
 		System.out.println("Apertou o botão");
 		try {
-			String path = "application/view/TelaCadastroCliente.fxml";
+			String path = "application/view/TelaCliente.fxml";
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
 			Pane root = fxmlLoader.load();
@@ -24,7 +24,7 @@ public class ControleInicial implements Initializable{
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setOpacity(1);
 			stage.setTitle("My New Stage Title");
-			stage.setScene(new Scene(root, 450, 450));
+			stage.setScene(new Scene(root, 400, 600));
 			stage.showAndWait();
 		} catch(Exception e) {
 			e.printStackTrace();
