@@ -33,8 +33,8 @@ public class ControleCliente implements Initializable{
 	}
 
 	public void carregarClientes(){
-		Pessoa c1 = new Pessoa(1,"Rebeca");
-		Pessoa c2 = new Pessoa(2,"JoÃ£o");
+		Pessoa c1 = new Pessoa("123.456.789-12", "Rebeca", (long) 1140028922, "rebeca@iarru.com", 1, 2, 3, "Rua", "Cidade", 420, "12345-12");
+		Pessoa c2 = new Pessoa("098.765.432-10", "João", (long) 1234512345, "joao@rotmeio.com", 2, 0, 3, "Calçada", "Cidade", 69, "21543-21", 13);
 		pessoas.add(c1);
 		pessoas.add(c2);
 		obsPessoa = FXCollections.observableArrayList(pessoas);
