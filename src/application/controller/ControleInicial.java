@@ -15,8 +15,14 @@ import javafx.stage.Stage;
 public class ControleInicial implements Initializable{
 	public void irPaginaCliente(ActionEvent a) throws IOException{
 		System.out.println("Apertou o botão");
+		String path = "application/view/TelaCliente.fxml";
+		novaPagina(path);
+
+	}
+
+	public void novaPagina(String path){
 		try {
-			String path = "application/view/TelaCliente.fxml";
+
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
 			Pane root = fxmlLoader.load();
@@ -29,7 +35,6 @@ public class ControleInicial implements Initializable{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

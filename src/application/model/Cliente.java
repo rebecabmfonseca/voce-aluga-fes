@@ -30,7 +30,7 @@ public class Cliente extends Pessoa
 		//checar se CNH e valido
 		if(!ValidarCNH(novoCNH))
 		{
-			System.out.println("CNH inválido!");
+			System.out.println("CNH invalido!");
 			return false;
 		} else
 		{
