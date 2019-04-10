@@ -6,29 +6,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleInicial">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleInicial">
    <children>
-      <Button fx:id="idClientes" layoutX="25.0" layoutY="342.0" mnemonicParsing="false" onAction="#irPaginaCliente" text="Clientes">
+      <Button fx:id="idClientes" layoutX="31.0" layoutY="486.0" mnemonicParsing="false" onAction="#irPaginaCliente" style="-fx-background-color: #fcc9c9; -fx-border-color: #f95c5c; -fx-border-radius: 5px;" text="Clientes" textAlignment="CENTER">
          <font>
             <Font name="Fira Code Regular" size="20.0" />
          </font>
       </Button>
-      <ImageView fitHeight="235.0" fitWidth="227.0" layoutX="87.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="343.0" fitWidth="334.0" layoutX="133.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imgs/você%20aluga.png" />
          </image>
       </ImageView>
-      <Button fx:id="idVeiculos" layoutX="262.0" layoutY="20.0" mnemonicParsing="false" text="Veiculos">
+      <Button fx:id="idVeiculos" layoutX="441.0" layoutY="67.0" mnemonicParsing="false" text="Veiculos">
          <font>
             <Font name="Fira Code Regular" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="idAluguel" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" text="Aluguel">
+      <Button fx:id="idAluguel" layoutX="31.0" layoutY="67.0" mnemonicParsing="false" text="Aluguel">
          <font>
             <Font name="Fira Code Regular" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="idFinanceiro" layoutX="244.0" layoutY="344.0" mnemonicParsing="false" text="Financeiro">
+      <Button fx:id="idFinanceiro" layoutX="433.0" layoutY="487.0" mnemonicParsing="false" text="Financeiro">
          <font>
             <Font name="Fira Code Regular" size="19.0" />
          </font>

@@ -4,41 +4,54 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleCliente">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleCliente">
    <children>
-      <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:" />
-      <Text layoutX="56.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Clientes">
+      <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome completo:" />
+      <Text layoutX="185.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Clientes">
          <font>
             <Font name="Fira Code Regular" size="24.0" />
          </font>
       </Text>
-      <TextField fx:id="txtNome" layoutX="97.0" layoutY="77.0" prefHeight="26.0" prefWidth="288.0" />
+      <TextField fx:id="txtNome" layoutX="156.0" layoutY="77.0" prefHeight="26.0" prefWidth="419.0" />
       <Text layoutX="14.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF:" />
-      <TextField fx:id="txtCPF" layoutX="100.0" layoutY="123.0" onKeyReleased="#mascaraCPF" />
+      <TextField fx:id="txtCPF" layoutX="158.0" layoutY="123.0" onKeyReleased="#mascaraCPF" prefHeight="26.0" prefWidth="171.0" />
       <Text layoutX="14.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefone:" />
-      <TextField fx:id="txtTelefone" layoutX="100.0" layoutY="167.0" onKeyReleased="#mascaraTelefone" />
+      <TextField fx:id="txtTelefone" layoutX="158.0" layoutY="167.0" onKeyReleased="#mascaraTelefone" />
       <Text layoutX="14.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Nacimento:" />
-      <DatePicker fx:id="txtDataNascimento" layoutX="160.0" layoutY="213.0" />
+      <DatePicker fx:id="txtDataNascimento" layoutX="159.0" layoutY="213.0" prefHeight="26.0" prefWidth="195.0" />
       <Text layoutX="14.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço:" />
-      <TextField fx:id="txtEndereco" layoutX="100.0" layoutY="258.0" prefHeight="26.0" prefWidth="258.0" />
-      <Button fx:id="idSalvar" layoutX="158.0" layoutY="424.0" mnemonicParsing="false" onAction="#salvarDados" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
+      <TextField fx:id="txtEndereco" layoutX="156.0" layoutY="258.0" prefHeight="26.0" prefWidth="258.0" />
+      <Button fx:id="idSalvar" layoutX="309.0" layoutY="442.0" mnemonicParsing="false" onAction="#salvarDados" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="22.0" layoutY="424.0" mnemonicParsing="false" onAction="#fecharJanela" style="-fx-background-color: #f29898;" text="Cancelar"  fx:id="btnCancelar" >
+      <Button fx:id="btnCancelar" layoutX="101.0" layoutY="442.0" mnemonicParsing="false" onAction="#fecharJanela" style="-fx-background-color: #f29898;" text="Cancelar">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>
       </Button>
-      <ListView fx:id="lvCliente" layoutX="14.0" layoutY="534.0" prefHeight="52.0" prefWidth="363.0" />
-      <Text layoutX="14.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
-      <TextField fx:id="txtEmail" layoutX="100.0" layoutY="295.0" prefHeight="26.0" prefWidth="258.0" />
-      <Text layoutX="14.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" />
-      <TextField fx:id="txtCNH" layoutX="97.0" layoutY="337.0" prefHeight="26.0" prefWidth="225.0" />
+      <ListView fx:id="lvCliente" layoutX="22.0" layoutY="538.0" prefHeight="48.0" prefWidth="544.0" />
+      <Text layoutX="14.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
+      <TextField fx:id="txtEmail" layoutX="156.0" layoutY="337.0" prefHeight="26.0" prefWidth="258.0" />
+      <Text layoutX="14.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" />
+      <TextField fx:id="txtCNH" layoutX="158.0" layoutY="379.0" prefHeight="26.0" prefWidth="171.0" />
+      <Text layoutX="430.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número:" />
+      <TextField fx:id="txtNumero" layoutX="493.0" layoutY="258.0" prefHeight="26.0" prefWidth="82.0" />
+      <Text layoutX="14.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cidade:" />
+      <TextField fx:id="txtCidade" layoutX="156.0" layoutY="295.0" />
+      <Text layoutX="362.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CEP:" />
+      <TextField fx:id="txtCEP" layoutX="406.0" layoutY="295.0" onKeyReleased="#mascaraCEP" prefHeight="26.0" prefWidth="171.0" />
+      <ImageView fitHeight="48.0" fitWidth="56.0" layoutX="55.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imgs/woman.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

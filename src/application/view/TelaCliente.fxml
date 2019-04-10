@@ -8,20 +8,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleCliente">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleCliente">
    <children>
-      <Text fontSmoothingType="LCD" layoutX="163.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tela de Clientes">
+      <Text fontSmoothingType="LCD" layoutX="292.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tela de Clientes">
          <font>
             <Font name="Fira Code Regular" size="21.0" />
          </font>
       </Text>
-      <Button fx:id="idCadastrar" layoutX="42.0" layoutY="139.0" mnemonicParsing="false" onAction="#irPaginaCadastrar" text="Cadastrar" />
-      <Button layoutX="169.0" layoutY="139.0" mnemonicParsing="false" text="Alterar" />
-      <Button layoutX="263.0" layoutY="139.0" mnemonicParsing="false" text="Remover" />
-      <ListView layoutX="14.0" layoutY="187.0" prefHeight="393.0" prefWidth="377.0" />
-      <ImageView fitHeight="121.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="idCadastrar" layoutX="58.0" layoutY="207.0" mnemonicParsing="false" onAction="#irPaginaCadastrar" text="Cadastrar" />
+      <Button fx:id="btnAlterar" layoutX="261.0" layoutY="207.0" mnemonicParsing="false" onAction="#alterarCliente" text="Alterar" />
+      <Button fx:id="btnRemover" layoutX="434.0" layoutY="207.0" mnemonicParsing="false" onAction="#removerCliente" text="Remover" />
+      <ListView layoutX="23.0" layoutY="257.0" prefHeight="296.0" prefWidth="558.0" />
+      <ImageView fitHeight="161.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../bin/application/imgs/você%20aluga.png" />
+            <Image url="@../imgs/você%20aluga.png" />
          </image>
       </ImageView>
    </children>

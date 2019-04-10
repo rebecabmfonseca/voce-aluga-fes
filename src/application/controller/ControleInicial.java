@@ -29,8 +29,8 @@ public class ControleInicial implements Initializable{
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setOpacity(1);
-			stage.setTitle("My New Stage Title");
-			stage.setScene(new Scene(root, 400, 600));
+			stage.setTitle("Cliente");
+			stage.setScene(new Scene(root, 600, 600));
 			stage.showAndWait();
 		} catch(Exception e) {
 			e.printStackTrace();

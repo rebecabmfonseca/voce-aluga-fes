@@ -4,12 +4,12 @@ public class Pessoa
 {
 	String CPF;
 	String nome;
-	Long telefone;
+	String telefone;
 	Data dataNasc;
 	Endereco endereco;
 	String email;
 
-	public Pessoa(String CPF, String nome, Long telefone, String email, int diaNasc, int mesNasc, Integer anoNasc,
+	public Pessoa(String CPF, String nome, String telefone, String email, int diaNasc, int mesNasc, Integer anoNasc,
 				  String rua, String cidade, int numero, String CEP)
 	{
 		this.CPF = CPF;
@@ -20,7 +20,7 @@ public class Pessoa
 		this.email = email;
 	}
 
-	public Pessoa(String CPF, String nome, Long telefone,String email, int diaNasc, int mesNasc, Integer anoNasc,
+	public Pessoa(String CPF, String nome, String telefone,String email, int diaNasc, int mesNasc, Integer anoNasc,
 				  String rua, String cidade, int numero, String CEP, Integer complemento)
 	{
 		this.CPF = CPF;
@@ -44,7 +44,7 @@ public class Pessoa
 	{
 		//checar se CPF e valido
 		if(!ValidarCPF(novoCPF)){
-			System.out.println("CPF inválido!");
+			System.out.println("CPF invï¿½lido!");
 			return false;
 		} else{
 			//atualizar CPF

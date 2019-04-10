@@ -15,7 +15,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/TelaInicial.fxml"));
 			Pane root = fxmlLoader.load();
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,600,600);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Você Aluga");
 			primaryStage.show();
