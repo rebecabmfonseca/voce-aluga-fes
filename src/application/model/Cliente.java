@@ -39,5 +39,9 @@ public class Cliente extends Pessoa
 			return true;
 		}
 	}
+	
+	public String toString() {
+	    return "CNH = " + this.CNH + "\nCPF = " + this.CPF + "\nEndereco = " + this.endereco ;
+	}
 }
 
