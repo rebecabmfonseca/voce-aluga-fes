@@ -1,0 +1,13 @@
+Para inserir um cliente
+insert into Cliente (Nome, Telefone, Endereco_1, Endereco_2, Data_Nasc, Lista_Negra, CNH, CPF) 
+values (‘Nome’, ‘Telefone’, ‘Endereco_1’, ‘Endereco_2’, ‘Data_Nasc’, ‘Lista_Negra’, ‘CNH’, CPF)
+ex.
+insert into Cliente values ("Nome", 5555, "Endereco_1", "Endereco_2", "Data_Nasc", 0, "222", "333");
+
+Para inserir uma reserva
+insert into Reserva (Avarias, Data_Ent, Data_Ret, ID) 
+values (‘Avarias’, ‘Data_Ent’, ‘Data_Ret’, ‘ID’)
+
+Para inserir um carro
+insert into Carro (Cor, Marca, Ano, KM, Modelo, Placa) 
+values (‘Cor’, ‘Marca’, ‘Ano’, ‘KM’, ‘Modelo’, ‘Placa’)
