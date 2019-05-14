@@ -48,5 +48,14 @@ public class Pessoa
 		this.CEP = CEP;
 		this.complemento = complemento;
 	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public Pessoa() {
+		// TODO Auto-generated constructor stub
+	}
 
 }

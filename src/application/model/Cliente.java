@@ -1,5 +1,12 @@
 package application.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente extends Pessoa
 {
 	//nome, cpf, dataNasc, endereco, telefone e email herdados de Pessoa
@@ -18,6 +25,51 @@ public class Cliente extends Pessoa
 		super(CPF, nome, telefone, email, diaNasc, mesNasc, anoNasc, rua, cidade, numero, CEP, complemento);
 		this.CNH = CNH;
 	}
+	
+	public Cliente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void getCliente(String CPF) {
+		Connection connection = null;
+		PreparedStatement statement;
+		List<Cliente> users = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT Nome, CNH FROM Cliente WHERE CNH=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CPF); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Cliente user = new Cliente();
+				System.out.println(resultSet.getString(1));
+				user.setNome(resultSet.getString(1));
+				user.setCNH(resultSet.getString(2));
+				users.add(user);
+			}
+			System.out.println(users);
+		} catch (SQLException exception) {
+		} 
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	public void setCNH(String CNH) {
+		this.CNH = CNH;
+	}
+	
+//	public void setDataNasc(String dataNasc) {
+//		this.dataNasc = dataNasc;
+//	}
+
 	
 	public String toString() {
 		return "Nome: " + this.nome + "\nCPF: " + this.CPF + "\nCNH: " + this.CNH

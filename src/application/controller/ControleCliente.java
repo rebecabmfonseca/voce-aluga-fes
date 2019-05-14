@@ -147,6 +147,8 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
+//    	    Clinte cliente;
+    	    Cliente.getCliente(result.get());
     	    //ToDo
     	    //Buscar o cliente
         	//Redirecionar para a página de Cadastro
