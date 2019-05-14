@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,6 +169,12 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
+    	    try {
+				Cliente.removeCliente(result.get());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	    //ToDo
     	    //Buscar o cliente
         	//Perguntar se quer remover
@@ -183,9 +190,9 @@ public class ControleCliente implements Initializable{
     	//Carregar os dados na classe
     	LocalDate date = txtDataNascimento.getValue();
     	if(!validarCPF(txtCPF.getText())) {
-    		//cpf invalido
+//    		cpf invalido
     	} else if(!validarCNH(txtCNH.getText())) {
-    		//cnh invalido
+//    		cnh invalido
     	} else {
     		//ToDo: campo para complemento do endereco
 	    	Cliente c = new Cliente(
@@ -204,6 +211,12 @@ public class ControleCliente implements Initializable{
 	    			);
 	    	
 	    	System.out.println(c.toString());
+	    	try {
+				Cliente.saveClient(c);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	/*System.out.println(txtDataNascimento.getValue());
 	    	System.out.println(date.getDayOfMonth());
 	    	System.out.println(date.getMonthValue());

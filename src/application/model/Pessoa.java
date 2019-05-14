@@ -49,8 +49,32 @@ public class Pessoa
 		this.complemento = complemento;
 	}
 	
+	public String getCPF() {
+		return this.CPF;
+	}
+	
+	public String getDataNasc() {
+		return this.diaNasc + "/" + this.mesNasc + "/" + this.anoNasc;
+	}
+	
+	public String getCep() {
+		return this.CEP;
+	}
+	
+	public String getEndereco() {
+		return this.endereco + ", " + this.numero + ", " + this.cidade;
+	} 
+	
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public String getTelefone() {
+		return this.telefone;
 	}
 
 

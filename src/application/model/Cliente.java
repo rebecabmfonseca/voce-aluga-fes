@@ -37,7 +37,7 @@ public class Cliente extends Pessoa
 		List<Cliente> users = new ArrayList<>();
 		try {
 			connection = Database.getDBConnection();
-			String query = "SELECT Nome, CNH FROM Cliente WHERE CNH=?";
+			String query = "SELECT Nome, CNH FROM Cliente WHERE CPF=?";
 			statement = connection.prepareStatement(query);
 			statement.setString(1, CPF); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 
@@ -61,9 +61,79 @@ public class Cliente extends Pessoa
 
 	}
 	
+	public static void saveClient(Cliente c) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "insert into Cliente (Nome, Telefone, Endereco_1, Endereco_2, Data_Nasc, Lista_Negra, CNH, CPF) values (?, ?, ?, ?, ?, ?, ?, ?)\n";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, c.getNome()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+			statement.setString(2, c.getTelefone());
+			statement.setString(3, c.getEndereco());
+			statement.setString(4, c.getCep());
+			statement.setString(5, c.getDataNasc());
+			statement.setString(6, "0");
+			statement.setString(7, c.getCNH());
+			statement.setString(8, c.getCPF());
+			statement.executeUpdate();
+			connection.commit();
+			resultSet = statement.getGeneratedKeys();
+
+		} catch (SQLException exception) {
+//			if (null != connection) {
+//				connection.rollback();
+//			}
+			exception.printStackTrace();
+		} finally {
+			if (null != resultSet) {
+				resultSet.close();
+			}
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+
+	}
+	
+	public static void removeCliente(String CPF) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = Database.getDBConnection();
+			String query = "DELETE FROM Cliente WHERE CPF=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CPF);
+
+			statement.executeUpdate();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+	
 	
 	public void setCNH(String CNH) {
 		this.CNH = CNH;
+	}
+	
+	public String getCNH() {
+		return this.CNH;
 	}
 	
 //	public void setDataNasc(String dataNasc) {
