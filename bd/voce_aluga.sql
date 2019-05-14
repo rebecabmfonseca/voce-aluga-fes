@@ -9,6 +9,8 @@ Endereco_2 varchar(100),
 Data_Nasc varchar(10),
 Lista_Negra boolean(1),
 CNH numeric(15), primary key (CNH) );
+ALTER TABLE Cliente ADD CPF numeric(11) ;
+
 
 create table Reserva (
 Avarias varchar(300),
