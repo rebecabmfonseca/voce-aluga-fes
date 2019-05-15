@@ -41,7 +41,7 @@
       <Text layoutX="14.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
       <TextField fx:id="txtEmail" layoutX="156.0" layoutY="337.0" prefHeight="26.0" prefWidth="258.0" />
       <Text layoutX="14.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" />
-      <TextField fx:id="txtCNH" layoutX="158.0" layoutY="379.0" prefHeight="26.0" prefWidth="171.0" />
+      <TextField fx:id="txtCNH" layoutX="158.0" layoutY="379.0" onKeyReleased="#mascaraCNH" prefHeight="26.0" prefWidth="171.0" />
       <Text layoutX="430.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número:" />
       <TextField fx:id="txtNumero" layoutX="493.0" layoutY="258.0" prefHeight="26.0" prefWidth="82.0" />
       <Text layoutX="14.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cidade:" />

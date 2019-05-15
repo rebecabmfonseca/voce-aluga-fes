@@ -82,8 +82,7 @@ public class ControleCliente implements Initializable{
 	}
 
 	public void novaPagina(String path){
-		try {
-
+		try {		
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
 			Pane root = fxmlLoader.load();
@@ -126,6 +125,13 @@ public class ControleCliente implements Initializable{
 		tff.setMask("###.###.###-##");
 		tff.setCaracteresValidos("0123456789");
 		tff.setTf(txtCPF);
+		tff.formatter();
+	}
+	public void mascaraCNH(){
+		TextFieldFormatter tff = new TextFieldFormatter();
+		tff.setMask("###########");
+		tff.setCaracteresValidos("0123456789");
+		tff.setTf(txtCNH);
 		tff.formatter();
 	}
 	@FXML
@@ -175,55 +181,98 @@ public class ControleCliente implements Initializable{
 
     @FXML
     void salvarDados(ActionEvent event) {
-    	//ToDo
-    	
-    	//Fazer a validação dos dados
+    	boolean cadastroValido = true;    	
+
     	//Carregar os dados na classe
-    	LocalDate date = txtDataNascimento.getValue();
+    	
     	if(!validarCPF(txtCPF.getText())) {
     		//cpf invalido
-    	} else if(!validarCNH(txtCNH.getText())) {
+    		cadastroValido = false;
+    		System.out.println("CPF invalido!");
+    	} 
+    	
+    	if(!validarCNH(txtCNH.getText())) {
     		//cnh invalido
-    	} else {
-    		//ToDo: campo para complemento do endereco
+    		cadastroValido = false;
+    		System.out.println("CNH invalido!");
+    	}
+    	
+    	if(txtCEP.getText().length() != 9) {
+    		cadastroValido = false;
+    		System.out.println("CEP invalido!");
+    	}
+    	
+    	if(txtNome.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Nome completo.");
+    	}
+    	
+    	if(txtTelefone.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Telefone.");
+    	}
+    	
+    	if(txtEmail.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Email.");
+    	}
+    	
+    	if(txtDataNascimento.getValue() == null) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Data de nascimento.");
+    	}
+    	
+    	if(txtEndereco.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Endere�o.");
+    	}
+    	
+    	if(txtCidade.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Cidade.");
+    	}
+    	
+    	if(txtNumero.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Nome completo.");
+    	}
+    	
+    	if(cadastroValido){
+    		LocalDate date = txtDataNascimento.getValue();
 	    	Cliente c = new Cliente(
 	    			txtCPF.getText(),
-	    			txtNome.getText(),
+	    			txtNome.getText().toUpperCase(),
 	    			txtCNH.getText(),
 	    			txtTelefone.getText(),
 	    			txtEmail.getText(),
 	    			date.getDayOfMonth(),
 	    			date.getMonthValue(),
 	    			date.getYear(),
-	    			txtEndereco.getText(),
-	    			txtCidade.getText(),
+	    			txtEndereco.getText().toUpperCase(),
+	    			txtCidade.getText().toUpperCase(),
 	    			Integer.parseInt(txtNumero.getText()),
 	    			txtCEP.getText()
 	    			);
 	    	
 	    	System.out.println(c.toString());
-	    	/*System.out.println(txtDataNascimento.getValue());
-	    	System.out.println(date.getDayOfMonth());
-	    	System.out.println(date.getMonthValue());
-	    	System.out.println(date.getYear());*/
     	}
 
     }
 
 
 	public void carregarClientes(){
-		/*Pessoa c1 = new Pessoa("123.456.789-12", "Rebeca", (long) 1140028922, "rebeca@iarru.com", 1, 2, 3, "Rua", "Cidade", 420, "12345-12");
-		Pessoa c2 = new Pessoa("098.765.432-10", "Joao", (long) 1234512345, "joao@rotmeio.com", 2, 0, 3, "Cal�ada", "Cidade", 69, "21543-21", 13);
+		/*Pessoa c1 = new Pessoa("123.456.789-12", "Rebeca", "1140028922", "rebeca@iarru.com", 1, 2, 3, "Rua", "Cidade", 420, "12345-12");
+		Pessoa c2 = new Pessoa("098.765.432-10", "Joao", "1234512345", "joao@rotmeio.com", 2, 0, 3, "Calcada", "Cidade", 69, "21543-21", 13);
 		pessoas.add(c1);
 		pessoas.add(c2);
 		obsPessoa = FXCollections.observableArrayList(pessoas);
 		lvCliente.setItems(obsPessoa);*/
-
 	}
 	
-	private boolean validarCPF(String CPF)
+	public boolean validarCPF(String cpf)
 	{
-		/*//talvez retornar string com tipo de invalidez em caso de invalidez (no caso talvez tenha que usar exception)
+		String CPF = cpf.replaceAll("\\D+", "");
+		//talvez retornar string com tipo de invalidez em caso de invalidez (no caso talvez tenha que usar exception)
 		if (CPF.equals("00000000000") ||
 	            CPF.equals("11111111111") ||
 	            CPF.equals("22222222222") || CPF.equals("33333333333") ||
@@ -236,8 +285,7 @@ public class ControleCliente implements Initializable{
 			Integer digito1 = calcularDigito(CPF.substring(0,9), pesoCPF);
 			Integer digito2 = calcularDigito(CPF.substring(0,9) + digito1, pesoCPF);
 			return CPF.equals(CPF.substring(0,9) + digito1.toString() + digito2.toString());
-		}*/
-		return true;
+		}
 	}
 
    private static int calcularDigito(String str, int[] peso) {
@@ -250,9 +298,39 @@ public class ControleCliente implements Initializable{
       return soma > 9 ? 0 : soma;
    }
    
-   private boolean validarCNH(String CNH) {
-	   //ToDo
-	   return true;
-   }
+	public static boolean validarCNH(String cnh) {
+		if(cnh.length() == 0) return false;
+		
+		char char1 = cnh.charAt(0);
+
+		if (cnh.replaceAll("\\D+", "").length() != 11 || String.format("%0" + 11 + "d", 0).replace('0', char1).equals(cnh)) {
+			return false;
+		}
+
+		long v = 0, j = 9;
+
+		for (int i = 0; i < 9; ++i, --j) {
+			v += ((cnh.charAt(i) - 48) * j);
+		}
+
+		long dsc = 0, vl1 = v % 11;
+
+		if (vl1 >= 10) {
+			vl1 = 0;
+			dsc = 2;
+		}
+		
+		v = 0;
+		j = 1;
+		for (int i = 0; i < 9; ++i, ++j) {
+
+			v += ((cnh.charAt(i) - 48) * j);
+		}
+
+		long x = v % 11;
+		long vl2 = (x >= 10) ? 0 : x - dsc;
+
+		return (String.valueOf(vl1) + String.valueOf(vl2)).equals(cnh.substring(cnh.length() - 2));
+	}
 
 }
