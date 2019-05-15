@@ -1,6 +1,7 @@
 package application.controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +154,8 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
+//    	    Clinte cliente;
+    	    Cliente.getCliente(result.get());
     	    //ToDo
     	    //Buscar o cliente
         	//Redirecionar para a página de Cadastro
@@ -172,6 +175,12 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
+    	    try {
+				Cliente.removeCliente(result.get());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	    //ToDo
     	    //Buscar o cliente
         	//Perguntar se quer remover
@@ -234,7 +243,7 @@ public class ControleCliente implements Initializable{
     	
     	if(txtNumero.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Nome completo.");
+    		System.out.println("Preencha o campo Numero.");
     	}
     	
     	if(cadastroValido){
@@ -255,6 +264,12 @@ public class ControleCliente implements Initializable{
 	    			);
 	    	
 	    	System.out.println(c.toString());
+	    	try {
+				Cliente.saveClient(c);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	}
 
     }
