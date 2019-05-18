@@ -58,7 +58,7 @@ public class Carro {
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "insert into Carro (Placa, Quilometragem, Modelo, Marca, Cor, Ano) values (?, ?, ?, ?, ?, ?)\n";
+			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano) values (?, ?, ?, ?, ?, ?)\n";
 			statement = connection.prepareStatement(query);
 			statement.setString(1, c.getPlaca()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setLong(2, c.getQuilometragem());
