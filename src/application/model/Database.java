@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class Database {
 	private static final Logger logger = Logger.getLogger(Database.class.getName());
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/voce_aluga";
+	private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/voce_aluga?autoReconnect=true&useSSL=false";
 	private static final String DB_USER = "root";
 	private static final String DB_PASSWORD = "";
 	

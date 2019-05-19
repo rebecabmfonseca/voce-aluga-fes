@@ -51,6 +51,59 @@ public class Carro {
 				"\nMarca: " + this.marca + "\nQuilometragem: " + this.quilometragem;
 	}
 	
+	public static void removeCarro(String placa) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = Database.getDBConnection();
+			String query = "DELETE FROM Carro WHERE Placa=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, placa);
+
+			statement.executeUpdate();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+
+	
+	public static Carro getCarro(String placa) {
+		Connection connection = null;
+		PreparedStatement statement;
+		Carro carro = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Carro WHERE Placa=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, placa);
+			ResultSet resultSet = statement.executeQuery();
+
+
+			while (resultSet.next()) {
+				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"));
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} 
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return carro;
+	}
+
+	
 	public static void saveCarro(Carro c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
