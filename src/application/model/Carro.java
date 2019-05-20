@@ -85,11 +85,13 @@ public class Carro {
 			connection = Database.getDBConnection();
 			String query = "SELECT * FROM Carro WHERE Placa=?";
 			statement = connection.prepareStatement(query);
+			System.out.println("placa = " + placa);
 			statement.setString(1, placa);
 			ResultSet resultSet = statement.executeQuery();
 
-
+//			System.out.println("1 " + resultSet.getString("Placa"));
 			while (resultSet.next()) {
+				System.out.println("2");
 				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"));
 			}
 		} catch (SQLException exception) {
@@ -100,6 +102,7 @@ public class Carro {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+//		System.out.println("3");
 		return carro;
 	}
 

@@ -19,6 +19,14 @@ public class ControleInicial implements Initializable{
 		novaPagina(path);
 
 	}
+	
+	public void irPaginaVeiculos(ActionEvent a) throws IOException{
+		System.out.println("Apertou o botão");
+		String path = "application/view/TelaVeiculo.fxml";
+		novaPagina(path);
+
+	}
+
 
 	public void novaPagina(String path){
 		try {

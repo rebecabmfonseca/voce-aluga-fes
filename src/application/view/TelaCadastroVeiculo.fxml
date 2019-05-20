@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleVeiculo">
+   <children>
+      <Text layoutX="185.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Veiculos">
+         <font>
+            <Font name="Fira Code Regular" size="24.0" />
+         </font>
+      </Text>
+
+      <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cor:" />
+      <TextField fx:id="txtCor" layoutX="156.0" layoutY="77.0" prefHeight="26.0" prefWidth="419.0" />
+      
+      <Text layoutX="14.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modelo:" />
+      <TextField fx:id="txtModelo" layoutX="158.0" layoutY="123.0" prefHeight="26.0" prefWidth="171.0" />
+      
+      <Text layoutX="14.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marca:" />
+      <TextField fx:id="txtMarca" layoutX="158.0" layoutY="167.0"  />
+      
+      <Text layoutX="14.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ano:" />
+      <TextField fx:id="txtAno" layoutX="159.0" layoutY="213.0" prefHeight="26.0" prefWidth="195.0" />
+      
+      <Text layoutX="14.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KM:" />
+      <TextField fx:id="txtKM" layoutX="156.0" layoutY="258.0" prefHeight="26.0" prefWidth="258.0" />
+      <Button fx:id="idSalvar" layoutX="309.0" layoutY="442.0" mnemonicParsing="false" onAction="#salvarDados" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
+         <font>
+            <Font name="Fira Code Regular" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnCancelar" layoutX="101.0" layoutY="442.0" mnemonicParsing="false" onAction="#fecharJanela" style="-fx-background-color: #f29898;" text="Cancelar">
+         <font>
+            <Font name="Fira Code Regular" size="18.0" />
+         </font>
+      </Button>
+      <ListView fx:id="lvCliente" layoutX="22.0" layoutY="538.0" prefHeight="48.0" prefWidth="544.0" />
+      <Text layoutX="14.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Placa:" />
+      <TextField fx:id="txtPlaca" layoutX="156.0" layoutY="337.0" prefHeight="26.0" prefWidth="258.0" />
+      <ImageView fitHeight="48.0" fitWidth="56.0" layoutX="55.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imgs/woman.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
