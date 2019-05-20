@@ -2,15 +2,14 @@ package application.controller;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Carro;
-import application.model.Cliente;
 import application.model.Pessoa;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +20,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
@@ -59,7 +58,18 @@ public class ControleVeiculo implements Initializable{
     private Button btnAlterar;
     @FXML
     private Button btnRemover;
-
+    @FXML
+    private TableView<Carro> table;
+    
+    private final ObservableList<Carro> data =
+            FXCollections.observableArrayList(
+                new Carro("101", 100, "modelo", "Marca", "cor", 2019),
+//                new Person("B", "X", "b@example.com"),
+//                new Person("C", "W", "c@example.com"),
+//                new Person("D", "Y", "d@example.com"),
+                new Carro("1010", 200, "mosdelo", "Msarca", "cosr", 2319)
+            );   
+//    table.setItems(data);
 //	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 //	private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
     
@@ -71,6 +81,8 @@ public class ControleVeiculo implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("Pasei aqui");
+		table.setItems(data);
 
 	}
 
