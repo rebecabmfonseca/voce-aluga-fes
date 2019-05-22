@@ -48,33 +48,51 @@ public class Pessoa
 		this.CEP = CEP;
 		this.complemento = complemento;
 	}
-	
+
 	public String getCPF() {
 		return this.CPF;
 	}
-	
+	public void setCPF(String cpf){
+		this.CPF = cpf;
+	}
+
 	public String getDataNasc() {
 		return this.diaNasc + "/" + this.mesNasc + "/" + this.anoNasc;
 	}
-	
+	public void setDataNasc(int dia, int mes, int ano ){
+		this.diaNasc = dia;
+		this.mesNasc = mes;
+		this.anoNasc = ano;
+	}
+
 	public String getCep() {
 		return this.CEP;
 	}
-	
+
 	public String getEndereco() {
 		return this.endereco + ", " + this.numero + ", " + this.cidade;
-	} 
-	
+	}
+	public void setEndereco(String endereco){
+		this.endereco = endereco;
+
+	}
+	public void setCEP(String cep){
+		this.CEP = cep;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getNome() {
 		return this.nome;
 	}
-	
+
 	public String getTelefone() {
 		return this.telefone;
+	}
+	public void setTelefone(String telefone){
+		this.telefone = telefone;
 	}
 
 

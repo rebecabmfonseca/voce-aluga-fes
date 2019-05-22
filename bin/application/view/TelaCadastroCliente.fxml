@@ -53,5 +53,6 @@
             <Image url="@../imgs/woman.png" />
          </image>
       </ImageView>
+      <Text fx:id="txtErro" layoutX="41.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

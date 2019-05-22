@@ -14,12 +14,12 @@ import javafx.stage.Stage;
 
 public class ControleInicial implements Initializable{
 	public void irPaginaCliente(ActionEvent a) throws IOException{
-		System.out.println("Apertou o botão");
+		//System.out.println("Apertou o botão");
 		String path = "application/view/TelaCliente.fxml";
 		novaPagina(path);
 
 	}
-	
+
 	public void irPaginaVeiculos(ActionEvent a) throws IOException{
 		System.out.println("Apertou o botão");
 		String path = "application/view/TelaVeiculo.fxml";

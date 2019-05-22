@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Cliente extends Pessoa
@@ -25,42 +27,94 @@ public class Cliente extends Pessoa
 		super(CPF, nome, telefone, email, diaNasc, mesNasc, anoNasc, rua, cidade, numero, CEP, complemento);
 		this.CNH = CNH;
 	}
-	
+
 	public Cliente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public static void getCliente(String CPF) {
+	public static List<Cliente> getAll(){
 		Connection connection = null;
 		PreparedStatement statement;
 		List<Cliente> users = new ArrayList<>();
 		try {
 			connection = Database.getDBConnection();
-			String query = "SELECT Nome, CNH FROM Cliente WHERE CPF=?";
+			String query = "SELECT * FROM Cliente";
 			statement = connection.prepareStatement(query);
-			statement.setString(1, CPF); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+	 // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
 				Cliente user = new Cliente();
-				System.out.println(resultSet.getString(1));
-				user.setNome(resultSet.getString(1));
-				user.setCNH(resultSet.getString(2));
+				user.setNome(rs.getString("Nome"));
+				System.out.println ("Entrei no getAll "+rs.getString("Nome"));
+				user.setTelefone(rs.getString("Telefone"));
+				user.setEndereco(rs.getString("Endereco_1"));
+				user.setCEP(rs.getString("CEP"));
+				user.setCNH(rs.getString("CNH"));
+				String data = rs.getString("Data_Nasc");
+				Date date = new Date(data);
+				Calendar cal = Calendar.getInstance();
+		    	cal.setTime(date);
+				user.setDataNasc(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+				user.setCPF(rs.getString("CPF"));
 				users.add(user);
-			}
-			System.out.println(users);
+
+				}
+			//System.out.println(users);
 		} catch (SQLException exception) {
-		} 
+		}
 		try {
 			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(users);
+		return users;
 
 	}
-	
+
+	public static Cliente getCliente(String CPF) {
+		Connection connection = null;
+		PreparedStatement statement;
+		Cliente user = new Cliente();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Cliente WHERE CPF=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CPF); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+
+				user.setNome(rs.getString("Nome"));
+				user.setTelefone(rs.getString("Telefone"));
+				user.setEndereco(rs.getString("Endereco_1"));
+				user.setCEP(rs.getString("CEP"));
+				user.setCNH(rs.getString("CNH"));
+				String data = rs.getString("Data_Nasc");
+				Date date = new Date(data);
+				Calendar cal = Calendar.getInstance();
+		    	cal.setTime(date);
+				user.setDataNasc(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+				user.setCPF(rs.getString("CPF"));
+				return user;
+			}
+
+
+		} catch (SQLException exception) {
+
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 	public static void saveClient(Cliente c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -68,9 +122,10 @@ public class Cliente extends Pessoa
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "insert into Cliente (Nome, Telefone, Endereco_1, Endereco_2, Data_Nasc, Lista_Negra, CNH, CPF) values (?, ?, ?, ?, ?, ?, ?, ?)\n";
-			statement = connection.prepareStatement(query);
-			statement.setString(1, c.getNome()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+			String query = "insert into Cliente (Nome, Telefone, Endereco_1, CEP, Data_Nasc, Lista_Negra, CNH, CPF) values (?, ?, ?, ?, ?, ?, ?, ?)\n";
+			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, c.getNome());
+			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setString(2, c.getTelefone());
 			statement.setString(3, c.getEndereco());
 			statement.setString(4, c.getCep());
@@ -79,8 +134,9 @@ public class Cliente extends Pessoa
 			statement.setString(7, c.getCNH());
 			statement.setString(8, c.getCPF());
 			statement.executeUpdate();
-			connection.commit();
+			//connection.commit();
 			resultSet = statement.getGeneratedKeys();
+			System.out.println("salvou");
 
 		} catch (SQLException exception) {
 //			if (null != connection) {
@@ -102,7 +158,7 @@ public class Cliente extends Pessoa
 		}
 
 	}
-	
+
 	public static void removeCliente(String CPF) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -126,21 +182,18 @@ public class Cliente extends Pessoa
 			}
 		}
 	}
-	
-	
+
+
 	public void setCNH(String CNH) {
 		this.CNH = CNH;
 	}
-	
+
 	public String getCNH() {
 		return this.CNH;
 	}
-	
-//	public void setDataNasc(String dataNasc) {
-//		this.dataNasc = dataNasc;
-//	}
 
-	
+
+
 	public String toString() {
 		return "Nome: " + this.nome + "\nCPF: " + this.CPF + "\nCNH: " + this.CNH
 				+ "\nEndereco: " + this.endereco + ", " + this.numero + ", " +

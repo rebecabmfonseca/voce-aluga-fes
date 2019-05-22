@@ -18,7 +18,7 @@
             <Image url="@../imgs/você%20aluga.png" />
          </image>
       </ImageView>
-      <Button fx:id="idVeiculos" layoutX="441.0" layoutY="67.0" mnemonicParsing="false" text="Veiculos">
+      <Button fx:id="idVeiculos" layoutX="441.0" layoutY="67.0" mnemonicParsing="false" onAction="#irPaginaVeiculos" style="-fx-background-color: #fcc9c9; -fx-border-color: #f95c5c; -fx-border-radius: 5px;" textAlignment="CENTER" text="Veiculos">
          <font>
             <Font name="Fira Code Regular" size="20.0" />
          </font>

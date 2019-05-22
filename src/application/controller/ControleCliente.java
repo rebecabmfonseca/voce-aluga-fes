@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -67,14 +68,17 @@ public class ControleCliente implements Initializable{
     private Button btnAlterar;
     @FXML
     private Button btnRemover;
+    @FXML
+    private Text txtErro;
 
 	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 //	private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-    
+
     @FXML
     void irPaginaCadastrar(ActionEvent event) {
     	String path = "application/view/TelaCadastroCliente.fxml";
 		novaPagina(path);
+		carregarClientes();
     }
 
 	@Override
@@ -83,7 +87,7 @@ public class ControleCliente implements Initializable{
 	}
 
 	public void novaPagina(String path){
-		try {		
+		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
 			Pane root = fxmlLoader.load();
@@ -154,19 +158,28 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
-//    	    Clinte cliente;
-    	    Cliente.getCliente(result.get());
-    	    //ToDo
-    	    //Buscar o cliente
-        	//Redirecionar para a página de Cadastro
-    		//Com os dados do cliente para edição
+    	    Cliente cliente = new Cliente();
+    	    cliente = Cliente.getCliente(result.get());
+    	    if(cliente==null){
+    	    	Alert alert = new Alert(AlertType.ERROR);
+    	    	alert.setTitle("Editar Cliente");
+    	    	alert.setHeaderText("");
+    	    	alert.setContentText("Cliente não encontrado!");
+    	    	alert.showAndWait();
+    	    }else{
+    	    	//ToDo
+            	//Redirecionar para a página de Cadastro
+        		//Com os dados do cliente para edição
+    	    }
+
+
     	}
 
 
 
     }
     @FXML
-    void removerCliente(ActionEvent event) {
+    void removerCliente(ActionEvent event)  {
     	TextInputDialog dialog = new TextInputDialog();
     	dialog.setTitle("Remover Cliente");
     	dialog.setHeaderText("Identificando o cliente");
@@ -175,84 +188,111 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
-    	    try {
-				Cliente.removeCliente(result.get());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	    //ToDo
-    	    //Buscar o cliente
-        	//Perguntar se quer remover
-    		//Remover
+    	    Cliente cliente = new Cliente();
+    	    cliente = Cliente.getCliente(result.get());
+    	    if(cliente==null){
+    	    	Alert alert = new Alert(AlertType.ERROR);
+    	    	alert.setTitle("Remover Cliente");
+    	    	alert.setHeaderText("");
+    	    	alert.setContentText("Cliente não encontrado!");
+    	    	alert.showAndWait();
+    	    }else{
+    	    	try {
+    				Cliente.removeCliente(result.get());
+    				Alert alert = new Alert(AlertType.INFORMATION);
+    				alert.setTitle("Remover Cliente");
+    				alert.setHeaderText(null);
+    				alert.setContentText("Removido com sucesso!");
+
+    				alert.showAndWait();
+    			} catch (SQLException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	    }
+
     	}
     }
 
     @FXML
     void salvarDados(ActionEvent event) {
-    	boolean cadastroValido = true;    	
+    	boolean cadastroValido = true;
+    	txtErro.setText("");
+
 
     	//Carregar os dados na classe
-    	
-    	if(!validarCPF(txtCPF.getText())) {
+
+    	/*if(!validarCPF(txtCPF.getText())) {
     		//cpf invalido
     		cadastroValido = false;
     		System.out.println("CPF invalido!");
-    	} 
-    	
+    		txtErro.setText(txtErro.getText()+"\nCPF invalido!");
+
+    	}
+
     	if(!validarCNH(txtCNH.getText())) {
     		//cnh invalido
     		cadastroValido = false;
     		System.out.println("CNH invalido!");
-    	}
-    	
+    		txtErro.setText(txtErro.getText()+"\nCNH invalido!");
+
+    	}*/
+
     	if(txtCEP.getText().length() != 9) {
     		cadastroValido = false;
     		System.out.println("CEP invalido!");
+    		txtErro.setText(txtErro.getText()+"\nCEP invalido!");
     	}
-    	
+
     	if(txtNome.getText().length() == 0) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Nome completo.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo Nome completo.");
     	}
-    	
+
     	if(txtTelefone.getText().length() == 0) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Telefone.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo Telefone.");
     	}
-    	
+
     	if(txtEmail.getText().length() == 0) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Email.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo Email");
     	}
-    	
+
     	if(txtDataNascimento.getValue() == null) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Data de nascimento.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha a data de Nascimento");
     	}
-    	
+
     	if(txtEndereco.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Endere�o.");
+    		System.out.println("Preencha o campo Endereço.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo Endereço");
     	}
-    	
+
     	if(txtCidade.getText().length() == 0) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Cidade.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo cidade");
     	}
-    	
+
     	if(txtNumero.getText().length() == 0) {
     		cadastroValido = false;
     		System.out.println("Preencha o campo Numero.");
+    		txtErro.setText(txtErro.getText()+"\nPreencha o campo Numero");
     	}
-    	
+
     	if(cadastroValido){
     		LocalDate date = txtDataNascimento.getValue();
 	    	Cliente c = new Cliente(
-	    			txtCPF.getText(),
+	    			removerValidacao(txtCPF.getText()),
 	    			txtNome.getText().toUpperCase(),
 	    			txtCNH.getText(),
-	    			txtTelefone.getText(),
+	    			removerValidacao(txtTelefone.getText()),
 	    			txtEmail.getText(),
 	    			date.getDayOfMonth(),
 	    			date.getMonthValue(),
@@ -260,17 +300,48 @@ public class ControleCliente implements Initializable{
 	    			txtEndereco.getText().toUpperCase(),
 	    			txtCidade.getText().toUpperCase(),
 	    			Integer.parseInt(txtNumero.getText()),
-	    			txtCEP.getText()
+	    			removerValidacao(txtCEP.getText())
 	    			);
-	    	
+
 	    	System.out.println(c.toString());
 	    	try {
 				Cliente.saveClient(c);
+				limparCampos();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dados do Cliente");
+				alert.setHeaderText(null);
+				alert.setContentText("Cadastro realizado com sucesso!");
+				alert.showAndWait();
+				Stage stage = (Stage) idSalvar.getScene().getWindow();
+			 	stage.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
+
+    }
+
+    public String removerValidacao(String campo){
+    	String novoCampo = "";
+    	novoCampo = campo.replace("(", "");
+    	novoCampo = novoCampo.replace(")", "");
+    	novoCampo = novoCampo.replace("-", "");
+    	novoCampo = novoCampo.replace(".", "");
+    	System.out.println(novoCampo);
+    	return novoCampo;
+    }
+
+    public void limparCampos(){
+    	txtCPF.setText("");
+		txtNome.setText("");
+		txtCNH.setText("");
+		txtTelefone.setText("");
+		txtEmail.setText("");
+		txtEndereco.setText("");
+		txtCidade.setText("");
+		txtNumero.setText("");
+		txtCEP.setText("");
 
     }
 
@@ -282,8 +353,13 @@ public class ControleCliente implements Initializable{
 		pessoas.add(c2);
 		obsPessoa = FXCollections.observableArrayList(pessoas);
 		lvCliente.setItems(obsPessoa);*/
+		System.out.println("entrou no carregaCliente");
+		System.out.println(obsPessoa);
+		obsPessoa = FXCollections.observableArrayList(Cliente.getAll());
+
+		lvCliente.setItems(obsPessoa);
 	}
-	
+
 	public boolean validarCPF(String cpf)
 	{
 		String CPF = cpf.replaceAll("\\D+", "");
@@ -294,7 +370,7 @@ public class ControleCliente implements Initializable{
 	            CPF.equals("44444444444") || CPF.equals("55555555555") ||
 	            CPF.equals("66666666666") || CPF.equals("77777777777") ||
 	            CPF.equals("88888888888") || CPF.equals("99999999999") || CPF.length() != 11){
-			
+
 			return false;
 		} else {
 			Integer digito1 = calcularDigito(CPF.substring(0,9), pesoCPF);
@@ -312,10 +388,10 @@ public class ControleCliente implements Initializable{
       soma = 11 - soma % 11;
       return soma > 9 ? 0 : soma;
    }
-   
+
 	public static boolean validarCNH(String cnh) {
 		if(cnh.length() == 0) return false;
-		
+
 		char char1 = cnh.charAt(0);
 
 		if (cnh.replaceAll("\\D+", "").length() != 11 || String.format("%0" + 11 + "d", 0).replace('0', char1).equals(cnh)) {
@@ -334,7 +410,7 @@ public class ControleCliente implements Initializable{
 			vl1 = 0;
 			dsc = 2;
 		}
-		
+
 		v = 0;
 		j = 1;
 		for (int i = 0; i < 9; ++i, ++j) {
