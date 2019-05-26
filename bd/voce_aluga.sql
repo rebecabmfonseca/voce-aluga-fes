@@ -4,12 +4,15 @@ Use voce_aluga;
 create table Cliente (
 Nome varchar(50) not null,
 Telefone numeric(11),
-Endereco_1 varchar(100),
-Endereco_2 varchar(100),
+Endereco varchar(100),
+CEP varchar(100),
 Data_Nasc varchar(10),
-Lista_Negra boolean(1),
-CNH numeric(15), primary key (CNH) );
-ALTER TABLE Cliente ADD CPF numeric(11) ;
+Lista_Negra boolean,
+CNH numeric(15), 
+CPF numeric(11),
+Email varchar(100),
+primary key (CNH) );
+
 
 
 create table Reserva (

@@ -48,7 +48,7 @@ public class Cliente extends Pessoa
 				user.setNome(rs.getString("Nome"));
 				System.out.println ("Entrei no getAll "+rs.getString("Nome"));
 				user.setTelefone(rs.getString("Telefone"));
-				user.setEndereco(rs.getString("Endereco_1"));
+				user.setEndereco(rs.getString("Endereco"));
 				user.setCEP(rs.getString("CEP"));
 				user.setCNH(rs.getString("CNH"));
 				String data = rs.getString("Data_Nasc");
@@ -57,6 +57,7 @@ public class Cliente extends Pessoa
 		    	cal.setTime(date);
 				user.setDataNasc(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
 				user.setCPF(rs.getString("CPF"));
+				user.setEmail(rs.getString("Email"));
 				users.add(user);
 
 				}
@@ -89,7 +90,7 @@ public class Cliente extends Pessoa
 
 				user.setNome(rs.getString("Nome"));
 				user.setTelefone(rs.getString("Telefone"));
-				user.setEndereco(rs.getString("Endereco_1"));
+				user.setEndereco(rs.getString("Endereco"));
 				user.setCEP(rs.getString("CEP"));
 				user.setCNH(rs.getString("CNH"));
 				String data = rs.getString("Data_Nasc");
@@ -98,6 +99,7 @@ public class Cliente extends Pessoa
 		    	cal.setTime(date);
 				user.setDataNasc(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
 				user.setCPF(rs.getString("CPF"));
+				user.setEmail(rs.getString("Email"));
 				return user;
 			}
 
@@ -115,6 +117,46 @@ public class Cliente extends Pessoa
 
 	}
 
+	public static void updateClient(Cliente c) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "update Cliente set Nome=?, Telefone=?, Endereco=?, CEP=?, Data_Nasc=?, Email=? where CNH=?";
+			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, c.getNome());
+			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+			statement.setString(2, c.getTelefone());
+			statement.setString(3, c.getEndereco());
+			statement.setString(4, c.getCep());
+			statement.setString(5, c.getDataNasc());
+			statement.setString(6,c.getEmail());
+			statement.setString(7, c.getCNH());
+			statement.executeUpdate();
+			resultSet = statement.getGeneratedKeys();
+			System.out.println("atualizou");
+
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			if (null != resultSet) {
+				resultSet.close();
+			}
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+
+
+	}
+
 	public static void saveClient(Cliente c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -122,7 +164,7 @@ public class Cliente extends Pessoa
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "insert into Cliente (Nome, Telefone, Endereco_1, CEP, Data_Nasc, Lista_Negra, CNH, CPF) values (?, ?, ?, ?, ?, ?, ?, ?)\n";
+			String query = "insert into Cliente (Nome, Telefone, Endereco, CEP, Data_Nasc, Lista_Negra, CNH, CPF, Email) values (?, ?, ?, ?, ?, ?, ?, ?,?)\n";
 			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getNome());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
@@ -133,15 +175,12 @@ public class Cliente extends Pessoa
 			statement.setString(6, "0");
 			statement.setString(7, c.getCNH());
 			statement.setString(8, c.getCPF());
+			statement.setString(9,c.getEmail());
 			statement.executeUpdate();
-			//connection.commit();
 			resultSet = statement.getGeneratedKeys();
 			System.out.println("salvou");
 
 		} catch (SQLException exception) {
-//			if (null != connection) {
-//				connection.rollback();
-//			}
 			exception.printStackTrace();
 		} finally {
 			if (null != resultSet) {
@@ -200,5 +239,7 @@ public class Cliente extends Pessoa
 				this.cidade + "\nCEP: " + this.CEP + "\nTelefone: " + this.telefone +
 				"\nData de Nascimento: " + this.diaNasc + "/" + this.mesNasc + "/" + this.anoNasc;
 	}
+
+
 }
 

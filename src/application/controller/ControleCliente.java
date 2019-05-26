@@ -3,6 +3,7 @@ package application.controller;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -43,25 +46,25 @@ public class ControleCliente implements Initializable{
     @FXML
     private Button idCadastrar;
     @FXML
-    private TextField txtNome;
+    private TextField txtNome = new TextField();
     @FXML
-    private TextField txtCPF;
+    private TextField txtCPF = new TextField();
     @FXML
-    private TextField txtTelefone;
+    private TextField txtTelefone = new TextField();
     @FXML
     private DatePicker txtDataNascimento;
     @FXML
-    private TextField txtEndereco;
+    private TextField txtEndereco = new TextField();
     @FXML
-    private TextField txtEmail;
+    private TextField txtEmail = new TextField();
     @FXML
-    private TextField txtCNH;
+    private TextField txtCNH = new TextField();
     @FXML
-    private TextField txtCidade;
+    private TextField txtCidade = new TextField();
     @FXML
-    private TextField txtNumero;
+    private TextField txtNumero = new TextField();
     @FXML
-    private TextField txtCEP;
+    private TextField txtCEP = new TextField();
     @FXML
     private AnchorPane telaCadastroCliente;
     @FXML
@@ -71,32 +74,59 @@ public class ControleCliente implements Initializable{
     @FXML
     private Text txtErro;
 
+    public static Cliente clienteEditavel = null;
+
 	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 //	private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
     @FXML
-    void irPaginaCadastrar(ActionEvent event) {
+    void irPaginaCadastrar() {
     	String path = "application/view/TelaCadastroCliente.fxml";
-		novaPagina(path);
-		carregarClientes();
+		novaPagina(path,  null);
+		//carregarClientes();
+    }
+    void irPaginaEditar(Cliente cliente) {
+    	String path = "application/view/TelaCadastroCliente.fxml";
+		novaPagina(path,  cliente);
     }
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resource) {
+		if(clienteEditavel!=null){
+			txtNome.setText(clienteEditavel.getNome());
+			txtTelefone.setText(clienteEditavel.getTelefone());
+			String[] endereco = clienteEditavel.getEndereco().split(",");
+			txtEndereco.setText(endereco[0]);
+			txtNumero.setText(endereco[1]);
+			txtCidade.setText(endereco[2]);
+			txtCEP.setText(clienteEditavel.getCep());
+			/*
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate localDate = LocalDate.parse(cliente.getDataNasc(), formatter);
+			txtDataNascimento.setValue(localDate);
+			*/
+			txtCNH.setText(clienteEditavel.getCNH());
+			txtCPF.setText(clienteEditavel.getCPF());
+			txtEmail.setText(clienteEditavel.getEmail());
 
+
+		}
 	}
 
-	public void novaPagina(String path){
+
+	public void novaPagina(String path, Cliente cliente){
+
 		try {
+			Stage stage;
+			Parent root;
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
-			Pane root = fxmlLoader.load();
-			Stage stage = new Stage();
+			root = fxmlLoader.load();
+			stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setOpacity(1);
-			stage.setTitle("Clientes");
 			stage.setScene(new Scene(root, 600, 600));
-			stage.showAndWait();
+			stage.show();
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -114,7 +144,6 @@ public class ControleCliente implements Initializable{
 			Stage stage = (Stage) btnCancelar.getScene().getWindow();
 		 	stage.close();
 		}
-
 	}
 
 	@FXML
@@ -158,26 +187,19 @@ public class ControleCliente implements Initializable{
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     	    System.out.println("Seu CPF é: " + result.get());
-    	    Cliente cliente = new Cliente();
-    	    cliente = Cliente.getCliente(result.get());
-    	    if(cliente==null){
+    	    clienteEditavel = Cliente.getCliente(result.get());
+    	    if(clienteEditavel==null){
     	    	Alert alert = new Alert(AlertType.ERROR);
     	    	alert.setTitle("Editar Cliente");
     	    	alert.setHeaderText("");
     	    	alert.setContentText("Cliente não encontrado!");
     	    	alert.showAndWait();
     	    }else{
-    	    	//ToDo
-            	//Redirecionar para a página de Cadastro
-        		//Com os dados do cliente para edição
+    	    	irPaginaEditar(clienteEditavel);
     	    }
-
-
     	}
-
-
-
     }
+
     @FXML
     void removerCliente(ActionEvent event)  {
     	TextInputDialog dialog = new TextInputDialog();
@@ -236,13 +258,13 @@ public class ControleCliente implements Initializable{
     		System.out.println("CNH invalido!");
     		txtErro.setText(txtErro.getText()+"\nCNH invalido!");
 
-    	}*/
+    	}
 
     	if(txtCEP.getText().length() != 9) {
     		cadastroValido = false;
     		System.out.println("CEP invalido!");
     		txtErro.setText(txtErro.getText()+"\nCEP invalido!");
-    	}
+    	}*/
 
     	if(txtNome.getText().length() == 0) {
     		cadastroValido = false;
@@ -287,37 +309,54 @@ public class ControleCliente implements Initializable{
     	}
 
     	if(cadastroValido){
-    		LocalDate date = txtDataNascimento.getValue();
-	    	Cliente c = new Cliente(
-	    			removerValidacao(txtCPF.getText()),
-	    			txtNome.getText().toUpperCase(),
-	    			txtCNH.getText(),
-	    			removerValidacao(txtTelefone.getText()),
-	    			txtEmail.getText(),
-	    			date.getDayOfMonth(),
-	    			date.getMonthValue(),
-	    			date.getYear(),
-	    			txtEndereco.getText().toUpperCase(),
-	    			txtCidade.getText().toUpperCase(),
-	    			Integer.parseInt(txtNumero.getText()),
-	    			removerValidacao(txtCEP.getText())
-	    			);
-
-	    	System.out.println(c.toString());
-	    	try {
-				Cliente.saveClient(c);
-				limparCampos();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Dados do Cliente");
-				alert.setHeaderText(null);
-				alert.setContentText("Cadastro realizado com sucesso!");
-				alert.showAndWait();
-				Stage stage = (Stage) idSalvar.getScene().getWindow();
-			 	stage.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    			LocalDate date = txtDataNascimento.getValue();
+		    	Cliente c = new Cliente(
+		    			removerValidacao(txtCPF.getText()),
+		    			txtNome.getText().toUpperCase(),
+		    			txtCNH.getText(),
+		    			removerValidacao(txtTelefone.getText()),
+		    			txtEmail.getText(),
+		    			date.getDayOfMonth(),
+		    			date.getMonthValue(),
+		    			date.getYear(),
+		    			txtEndereco.getText().toUpperCase(),
+		    			txtCidade.getText().toUpperCase(),
+		    			Integer.parseInt(txtNumero.getText().replaceAll(" ", "")), //removendo o espaço, caso haja
+		    			removerValidacao(txtCEP.getText())
+		    			);
+		    	if(clienteEditavel == null){ //significa que não tem cliente pra editar, então é a opção Cadastrar Novo Cliente
+			    	//System.out.println(c.toString());
+			    	try {
+						Cliente.saveClient(c);
+						limparCampos();
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Dados do Cliente");
+						alert.setHeaderText(null);
+						alert.setContentText("Cadastro realizado com sucesso!");
+						alert.showAndWait();
+						Stage stage = (Stage) idSalvar.getScene().getWindow();
+					 	stage.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		         }else{
+		        	 try {
+							Cliente.updateClient(c);
+							limparCampos();
+							clienteEditavel = null;
+							Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setTitle("Dados do Cliente");
+							alert.setHeaderText(null);
+							alert.setContentText("Cadastro atualizado com sucesso!");
+							alert.showAndWait();
+							Stage stage = (Stage) idSalvar.getScene().getWindow();
+						 	stage.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		         }
     	}
 
     }
@@ -328,7 +367,6 @@ public class ControleCliente implements Initializable{
     	novoCampo = novoCampo.replace(")", "");
     	novoCampo = novoCampo.replace("-", "");
     	novoCampo = novoCampo.replace(".", "");
-    	System.out.println(novoCampo);
     	return novoCampo;
     }
 
