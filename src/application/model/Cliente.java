@@ -46,7 +46,6 @@ public class Cliente extends Pessoa
 			while (rs.next()) {
 				Cliente user = new Cliente();
 				user.setNome(rs.getString("Nome"));
-				System.out.println ("Entrei no getAll "+rs.getString("Nome"));
 				user.setTelefone(rs.getString("Telefone"));
 				user.setEndereco(rs.getString("Endereco"));
 				user.setCEP(rs.getString("CEP"));
@@ -61,16 +60,13 @@ public class Cliente extends Pessoa
 				users.add(user);
 
 				}
-			//System.out.println(users);
 		} catch (SQLException exception) {
 		}
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(users);
 		return users;
 
 	}

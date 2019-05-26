@@ -3,7 +3,6 @@ package application.controller;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -26,19 +24,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ControleCliente implements Initializable{
 	@FXML
-	private ListView<Pessoa> lvCliente;
 	private List<Pessoa> pessoas = new ArrayList<>();
-	private ObservableList<Pessoa> obsPessoa;
     @FXML
     private Button btnCancelar;
 	@FXML
@@ -73,6 +72,20 @@ public class ControleCliente implements Initializable{
     private Button btnRemover;
     @FXML
     private Text txtErro;
+    @FXML
+    private ListView<?> listView;
+    @FXML
+    private TableView<Cliente> tableCliente;
+    @FXML
+    private TableColumn<Cliente, String> nomeCol;
+    @FXML
+    private TableColumn<Cliente, String> CPFCol;
+    @FXML
+    private TableColumn<Cliente, String> CNHCol;
+    @FXML
+    private TableColumn<Cliente, String> EmailCol;
+    @FXML
+    private TableColumn<?, Boolean> selectCol;
 
     public static Cliente clienteEditavel = null;
 
@@ -83,7 +96,6 @@ public class ControleCliente implements Initializable{
     void irPaginaCadastrar() {
     	String path = "application/view/TelaCadastroCliente.fxml";
 		novaPagina(path,  null);
-		//carregarClientes();
     }
     void irPaginaEditar(Cliente cliente) {
     	String path = "application/view/TelaCadastroCliente.fxml";
@@ -92,25 +104,38 @@ public class ControleCliente implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
-		if(clienteEditavel!=null){
-			txtNome.setText(clienteEditavel.getNome());
-			txtTelefone.setText(clienteEditavel.getTelefone());
-			String[] endereco = clienteEditavel.getEndereco().split(",");
-			txtEndereco.setText(endereco[0]);
-			txtNumero.setText(endereco[1]);
-			txtCidade.setText(endereco[2]);
-			txtCEP.setText(clienteEditavel.getCep());
-			/*
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate localDate = LocalDate.parse(cliente.getDataNasc(), formatter);
-			txtDataNascimento.setValue(localDate);
-			*/
-			txtCNH.setText(clienteEditavel.getCNH());
-			txtCPF.setText(clienteEditavel.getCPF());
-			txtEmail.setText(clienteEditavel.getEmail());
+		if(location.toString().contains("TelaCliente")){
 
-
+			List<Cliente> listaCliente = new ArrayList<>();
+			listaCliente = Cliente.getAll();
+			nomeCol.setCellValueFactory(new PropertyValueFactory<>("Nome"));
+			CPFCol.setCellValueFactory(new PropertyValueFactory<>("CPF"));
+			CNHCol.setCellValueFactory(new PropertyValueFactory<>("CNH"));
+			EmailCol.setCellValueFactory(new PropertyValueFactory<>("Email"));
+			ObservableList<Cliente> lista = FXCollections.observableArrayList(listaCliente);
+			tableCliente.setItems( lista );
 		}
+		if(location.toString().contains("TelaCadastroCliente")){
+
+			if(clienteEditavel!=null){
+				txtNome.setText(clienteEditavel.getNome());
+				txtTelefone.setText(clienteEditavel.getTelefone());
+				String[] endereco = clienteEditavel.getEndereco().split(",");
+				txtEndereco.setText(endereco[0]);
+				txtNumero.setText(endereco[1]);
+				txtCidade.setText(endereco[2]);
+				txtCEP.setText(clienteEditavel.getCep());
+				/*
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate localDate = LocalDate.parse(cliente.getDataNasc(), formatter);
+				txtDataNascimento.setValue(localDate);
+				*/
+				txtCNH.setText(clienteEditavel.getCNH());
+				txtCPF.setText(clienteEditavel.getCPF());
+				txtEmail.setText(clienteEditavel.getEmail());
+				}
+		}
+
 	}
 
 
@@ -179,61 +204,74 @@ public class ControleCliente implements Initializable{
 
     @FXML
     void alterarCliente(ActionEvent event) {
-    	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Alterar Cliente");
-    	dialog.setHeaderText("Identificando o cliente");
-    	dialog.setContentText("Por favor, informe o CPF do cliente");
-
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()){
-    	    System.out.println("Seu CPF é: " + result.get());
-    	    clienteEditavel = Cliente.getCliente(result.get());
-    	    if(clienteEditavel==null){
-    	    	Alert alert = new Alert(AlertType.ERROR);
-    	    	alert.setTitle("Editar Cliente");
-    	    	alert.setHeaderText("");
-    	    	alert.setContentText("Cliente não encontrado!");
-    	    	alert.showAndWait();
-    	    }else{
-    	    	irPaginaEditar(clienteEditavel);
-    	    }
+    	String cpfSelecionado;
+    	if(tableCliente.getSelectionModel().getSelectedItem()!=null){
+    		cpfSelecionado = tableCliente.getSelectionModel().getSelectedItem().getCPF();
+    	}else{
+    		TextInputDialog dialog = new TextInputDialog();
+        	dialog.setTitle("Alterar Cliente");
+        	dialog.setHeaderText("Identificando o cliente");
+        	dialog.setContentText("Por favor, informe o CPF do cliente");
+        	Optional<String> result = dialog.showAndWait();
+        	cpfSelecionado = result.get();
+    	}
+    	clienteEditavel = Cliente.getCliente(cpfSelecionado);
+    	if(clienteEditavel==null){
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Editar Cliente");
+	    	alert.setHeaderText("");
+	    	alert.setContentText("Cliente não encontrado!");
+	    	alert.showAndWait();
+    	}else{
+    	   	irPaginaEditar(clienteEditavel);
     	}
     }
 
     @FXML
     void removerCliente(ActionEvent event)  {
-    	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Remover Cliente");
-    	dialog.setHeaderText("Identificando o cliente");
-    	dialog.setContentText("Por favor, informe o CPF do cliente");
+    	String cpfSelecionado;
 
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()){
-    	    System.out.println("Seu CPF é: " + result.get());
-    	    Cliente cliente = new Cliente();
-    	    cliente = Cliente.getCliente(result.get());
-    	    if(cliente==null){
-    	    	Alert alert = new Alert(AlertType.ERROR);
-    	    	alert.setTitle("Remover Cliente");
-    	    	alert.setHeaderText("");
-    	    	alert.setContentText("Cliente não encontrado!");
-    	    	alert.showAndWait();
-    	    }else{
-    	    	try {
-    				Cliente.removeCliente(result.get());
-    				Alert alert = new Alert(AlertType.INFORMATION);
-    				alert.setTitle("Remover Cliente");
-    				alert.setHeaderText(null);
-    				alert.setContentText("Removido com sucesso!");
-
-    				alert.showAndWait();
-    			} catch (SQLException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-    	    }
-
+    	if(tableCliente.getSelectionModel().getSelectedItem().getCPF()!= null){
+    		cpfSelecionado = tableCliente.getSelectionModel().getSelectedItem().getCPF();
+    	}else{
+    		TextInputDialog dialog = new TextInputDialog();
+        	dialog.setTitle("Remover Cliente");
+        	dialog.setHeaderText("Identificando o cliente");
+        	dialog.setContentText("Por favor, informe o CPF do cliente");
+        	Optional<String> result = dialog.showAndWait();
+        	cpfSelecionado = result.get();
     	}
+   	    Cliente cliente = new Cliente();
+   	    cliente = Cliente.getCliente(cpfSelecionado);
+    	if(cliente==null){
+    	   	Alert alert = new Alert(AlertType.ERROR);
+    	   	alert.setTitle("Remover Cliente");
+    	   	alert.setHeaderText("");
+    	   	alert.setContentText("Cliente não encontrado!");
+    	   	alert.showAndWait();
+    	}else{
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+    		alert.setTitle("Remover Cliente");
+    		alert.setHeaderText(null);
+    		alert.setContentText("Tem certeza que quer remover esse cliente ?");
+
+    		Optional<ButtonType> result = alert.showAndWait();
+    		if (result.get() == ButtonType.OK){
+    			try {
+        			Cliente.removeCliente(cpfSelecionado);
+        			Alert alerta = new Alert(AlertType.INFORMATION);
+        			alerta.setTitle("Remover Cliente");
+        			alerta.setHeaderText(null);
+        			alerta.setContentText("Removido com sucesso!");
+       				alerta.showAndWait();
+        			} catch (SQLException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			}
+
+    		}
+    	}
+
     }
 
     @FXML
@@ -382,21 +420,6 @@ public class ControleCliente implements Initializable{
 		txtCEP.setText("");
 
     }
-
-
-	public void carregarClientes(){
-		/*Pessoa c1 = new Pessoa("123.456.789-12", "Rebeca", "1140028922", "rebeca@iarru.com", 1, 2, 3, "Rua", "Cidade", 420, "12345-12");
-		Pessoa c2 = new Pessoa("098.765.432-10", "Joao", "1234512345", "joao@rotmeio.com", 2, 0, 3, "Calcada", "Cidade", 69, "21543-21", 13);
-		pessoas.add(c1);
-		pessoas.add(c2);
-		obsPessoa = FXCollections.observableArrayList(pessoas);
-		lvCliente.setItems(obsPessoa);*/
-		System.out.println("entrou no carregaCliente");
-		System.out.println(obsPessoa);
-		obsPessoa = FXCollections.observableArrayList(Cliente.getAll());
-
-		lvCliente.setItems(obsPessoa);
-	}
 
 	public boolean validarCPF(String cpf)
 	{
