@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Carro;
+import application.model.Cliente;
 import application.model.Pessoa;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,19 +22,18 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ControleVeiculo implements Initializable{
-	@FXML
-	private ListView<Pessoa> lvCliente;
-	private List<Pessoa> pessoas = new ArrayList<>();
-	private ObservableList<Pessoa> obsPessoa;
+
     @FXML
     private Button btnCancelar;
 	@FXML
@@ -58,21 +58,30 @@ public class ControleVeiculo implements Initializable{
     private Button btnAlterar;
     @FXML
     private Button btnRemover;
+
     @FXML
     private TableView<Carro> table;
-    
-    private final ObservableList<Carro> data =
-            FXCollections.observableArrayList(
-                new Carro("101", 100, "modelo", "Marca", "cor", 2019),
-//                new Person("B", "X", "b@example.com"),
-//                new Person("C", "W", "c@example.com"),
-//                new Person("D", "Y", "d@example.com"),
-                new Carro("1010", 200, "mosdelo", "Msarca", "cosr", 2319)
-            );   
-//    table.setItems(data);
-//	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
-//	private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-    
+
+    @FXML
+    private TableColumn<Carro, String> ColCor;
+
+    @FXML
+    private TableColumn<Carro, String> ColMarca;
+
+    @FXML
+    private TableColumn<Carro, String> ColAno;
+
+    @FXML
+    private TableColumn<Carro, Integer> ColKM;
+
+    @FXML
+    private TableColumn<Carro, String> ColModelo;
+
+    @FXML
+    private TableColumn<Carro, String> ColPlaca;
+
+    public static Carro carroEditavel = new Carro();
+
     @FXML
     void irPaginaCadastrar(ActionEvent event) {
     	String path = "application/view/TelaCadastroVeiculo.fxml";
@@ -81,20 +90,42 @@ public class ControleVeiculo implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Pasei aqui");
-		table.setItems(data);
+		if(location.toString().contains("TelaVeiculo")){
 
+			List<Carro> listaCarro = new ArrayList<>();
+			listaCarro = Carro.getAll();
+			ColCor.setCellValueFactory(new PropertyValueFactory<>("Cor"));
+			ColMarca.setCellValueFactory(new PropertyValueFactory<>("Marca"));
+			ColAno.setCellValueFactory(new PropertyValueFactory<>("Ano"));
+			ColKM.setCellValueFactory(new PropertyValueFactory<>("KM"));
+			ColModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
+			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Placa"));
+			ObservableList<Carro> lista = FXCollections.observableArrayList(listaCarro);
+			table.setItems( lista );
+
+		}
+		if(location.toString().contains("TelaCadastroVeiculo")){
+
+			if(carroEditavel!=null){
+				txtCor.setText(carroEditavel.getCor());
+				txtMarca.setText(carroEditavel.getMarca());
+				txtAno.setText(Integer.toString(carroEditavel.getAno()));
+				txtKM.setText(Integer.toString((int)carroEditavel.getQuilometragem()));
+				txtModelo.setText(carroEditavel.getModelo());
+				txtPlaca.setText(carroEditavel.getPlaca());
+				}
+		}
 	}
 
 	public void novaPagina(String path){
-		try {		
+		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getClassLoader().getResource(path));
 			Pane root = fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setOpacity(1);
-			stage.setTitle("Clientes");
+			stage.setTitle("Carros");
 			stage.setScene(new Scene(root, 600, 600));
 			stage.showAndWait();
 		} catch(Exception e) {
@@ -117,54 +148,42 @@ public class ControleVeiculo implements Initializable{
 
 	}
 
-	@FXML
-	public void mascaraTelefone(){
-		TextFieldFormatter tff = new TextFieldFormatter();
-		tff.setMask("(##)#####-####");
-		tff.setCaracteresValidos("0123456789");
-//		tff.setTf(txtTelefone);
-		tff.formatter();
-	}
-	public void mascaraCPF(){
-		TextFieldFormatter tff = new TextFieldFormatter();
-		tff.setMask("###.###.###-##");
-		tff.setCaracteresValidos("0123456789");
-//		tff.setTf(txtCPF);
-		tff.formatter();
-	}
-	public void mascaraCNH(){
-		TextFieldFormatter tff = new TextFieldFormatter();
-		tff.setMask("###########");
-		tff.setCaracteresValidos("0123456789");
-//		tff.setTf(txtCNH);
-		tff.formatter();
-	}
-	@FXML
-	public void mascaraCEP(){
-		TextFieldFormatter tff = new TextFieldFormatter();
-		tff.setMask("#####-###");
-		tff.setCaracteresValidos("0123456789");
-//		tff.setTf(txtCEP);
-		tff.formatter();
-	}
 
     @FXML
     void alterarVeiculo(ActionEvent event) {
-    	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Alterar Carro");
-    	dialog.setHeaderText("Identificando o carro");
-    	dialog.setContentText("Por favor, informe a Placa do Veiculo");
-
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()){
-    	    System.out.println("Sua Placa é: " + result.get());
-    	    System.out.println(Carro.getCarro(result.get()));
+    	String placaSelecionada;
+    	if(table.getSelectionModel().getSelectedItem()!=null){
+    		placaSelecionada = table.getSelectionModel().getSelectedItem().getPlaca();
+    	}else{
+    		TextInputDialog dialog = new TextInputDialog();
+        	dialog.setTitle("Alterar Carro");
+        	dialog.setHeaderText("Identificando o carro");
+        	dialog.setContentText("Por favor, informe a placa do carro");
+        	Optional<String> result = dialog.showAndWait();
+        	placaSelecionada = result.get();
+    	}
+    	carroEditavel = Carro.getCarro(placaSelecionada);
+    	if(carroEditavel==null){
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Editar Carro");
+	    	alert.setHeaderText("");
+	    	alert.setContentText("Carro não encontrado!");
+	    	alert.showAndWait();
+    	}else{
+    	   	irPaginaEditar();
     	}
 
 
 
+
     }
-    @FXML
+    private void irPaginaEditar() {
+    	String path = "application/view/TelaCadastroVeiculo.fxml";
+		novaPagina(path);
+
+	}
+
+	@FXML
     void removerVeiculo(ActionEvent event) {
     	TextInputDialog dialog = new TextInputDialog();
     	dialog.setTitle("Remover Veiculo");
@@ -189,76 +208,57 @@ public class ControleVeiculo implements Initializable{
 
     @FXML
     void salvarDados(ActionEvent event) {
-    	boolean cadastroValido = true;    	
+    	boolean cadastroValido = true;
 
     	//Carregar os dados na classe
-    	
-//    	if(!validarCPF(txtCPF.getText())) {
-//    		//cpf invalido
-//    		cadastroValido = false;
-//    		System.out.println("CPF invalido!");
-//    	} 
-    	
-//    	if(!validarCNH(txtCNH.getText())) {
-//    		//cnh invalido
-//    		cadastroValido = false;
-//    		System.out.println("CNH invalido!");
-//    	}
-//    	
-//    	if(txtCEP.getText().length() != 9) {
-//    		cadastroValido = false;
-//    		System.out.println("CEP invalido!");
-//    	}
-//    	
+
     	if(txtCor.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Nome completo.");
+    		System.out.println("Preencha o campo Cor completo.");
     	}
-    	
+
     	if(txtModelo.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Telefone.");
+    		System.out.println("Preencha o campo Modelo.");
     	}
-    	
+
     	if(txtMarca.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Email.");
+    		System.out.println("Preencha o campo Marca.");
     	}
-    	
-//    	if(txtAno.getValue() == null) {
-//    		cadastroValido = false;
-//    		System.out.println("Preencha o campo Data de nascimento.");
-//    	}
-    	
-//    	if(txtKM.getValue() == null) {
-//    		cadastroValido = false;
-//    		System.out.println("Preencha o campo Endere�o.");
-//    	}
-    	
+
+    	if(txtAno.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Ano.");
+    	}
+    	if(txtKM.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Quilometragem.");
+    	}
     	if(txtPlaca.getText().length() == 0) {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Cidade.");
+    		System.out.println("Preencha o campo Placa.");
     	}
-    	
-//    	if(txtNumero.getText().length() == 0) {
-//    		cadastroValido = false;
-//    		System.out.println("Preencha o campo Numero.");
-//    	}
-//    	
     	if(cadastroValido){
-//    		LocalDate date = txtDataNascimento.getValue();
 	    	Carro c = new Carro(
-	    			txtPlaca.getText(),
+	    			txtPlaca.getText().toUpperCase(),
 	    			Integer.parseInt(txtKM.getText()),
-	    			txtModelo.getText(),
-	    			txtMarca.getText(),
-	    			txtCor.getText(),
+	    			txtModelo.getText().toUpperCase(),
+	    			txtMarca.getText().toUpperCase(),
+	    			txtCor.getText().toUpperCase(),
 	    			Integer.parseInt(txtAno.getText())
 	    			);
-	    	
-	    	System.out.println(c.toString());
+
 	    	try {
 				Carro.saveCarro(c);
+				limparCampos();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dados do Cliente");
+				alert.setHeaderText(null);
+				alert.setContentText("Cadastro realizado com sucesso!");
+				alert.showAndWait();
+				Stage stage = (Stage) idSalvar.getScene().getWindow();
+			 	stage.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -267,49 +267,15 @@ public class ControleVeiculo implements Initializable{
     }
 
 
-	public void carregarClientes(){
-		/*Pessoa c1 = new Pessoa("123.456.789-12", "Rebeca", "1140028922", "rebeca@iarru.com", 1, 2, 3, "Rua", "Cidade", 420, "12345-12");
-		Pessoa c2 = new Pessoa("098.765.432-10", "Joao", "1234512345", "joao@rotmeio.com", 2, 0, 3, "Calcada", "Cidade", 69, "21543-21", 13);
-		pessoas.add(c1);
-		pessoas.add(c2);
-		obsPessoa = FXCollections.observableArrayList(pessoas);
-		lvCliente.setItems(obsPessoa);*/
+	private void limparCampos() {
+		txtPlaca.setText("");
+		txtKM.setText("");
+		txtModelo.setText("");
+		txtMarca.setText("");
+		txtCor.setText("");
+		txtAno.setText("");
+
 	}
-	
-   
-	public static boolean validarCNH(String cnh) {
-		if(cnh.length() == 0) return false;
-		
-		char char1 = cnh.charAt(0);
 
-		if (cnh.replaceAll("\\D+", "").length() != 11 || String.format("%0" + 11 + "d", 0).replace('0', char1).equals(cnh)) {
-			return false;
-		}
-
-		long v = 0, j = 9;
-
-		for (int i = 0; i < 9; ++i, --j) {
-			v += ((cnh.charAt(i) - 48) * j);
-		}
-
-		long dsc = 0, vl1 = v % 11;
-
-		if (vl1 >= 10) {
-			vl1 = 0;
-			dsc = 2;
-		}
-		
-		v = 0;
-		j = 1;
-		for (int i = 0; i < 9; ++i, ++j) {
-
-			v += ((cnh.charAt(i) - 48) * j);
-		}
-
-		long x = v % 11;
-		long vl2 = (x >= 10) ? 0 : x - dsc;
-
-		return (String.valueOf(vl1) + String.valueOf(vl2)).equals(cnh.substring(cnh.length() - 2));
-	}
 
 }

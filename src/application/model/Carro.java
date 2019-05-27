@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class Carro {
 	String placa;
@@ -12,7 +16,7 @@ public class Carro {
 	String marca;
 	String cor;
 	int ano;
-	
+
 	public Carro(String placa, long quilometragem, String modelo, String marca, String cor, int ano) {
 		this.placa = placa;
 		this.quilometragem = quilometragem;
@@ -21,25 +25,49 @@ public class Carro {
 		this.cor = cor;
 		this.ano = ano;
 	}
-	
+
+	public Carro() {
+
+	}
+
+	public void setPlaca(String placa){
+		this.placa = placa;
+	}
 	public String getPlaca() {
 		return placa;
 	}
 
+	public void setQuilometragem(long Quilometragem){
+		this.quilometragem = Quilometragem;
+	}
 	public long getQuilometragem() {
 		return quilometragem;
+	}
+
+	public void setModelo(String modelo){
+		this.modelo = modelo;
 	}
 
 	public String getModelo() {
 		return modelo;
 	}
 
+	public void setMarca(String Marca){
+		this.marca = Marca;
+	}
+
 	public String getMarca() {
 		return marca;
+	}
+	public void setCor(String cor){
+		this.cor = cor;
 	}
 
 	public String getCor() {
 		return cor;
+	}
+	public void setAno(int Ano){
+		this.ano = Ano;
 	}
 
 	public int getAno() {
@@ -50,7 +78,7 @@ public class Carro {
 		return "Modelo: " + this.modelo + "\nAno: " + this.ano + "\nCor: " + this.cor + "\nPlaca: " + this.placa +
 				"\nMarca: " + this.marca + "\nQuilometragem: " + this.quilometragem;
 	}
-	
+
 	public static void removeCarro(String placa) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -75,7 +103,7 @@ public class Carro {
 		}
 	}
 
-	
+
 	public static Carro getCarro(String placa) {
 		Connection connection = null;
 		PreparedStatement statement;
@@ -96,7 +124,7 @@ public class Carro {
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
-		} 
+		}
 		try {
 			connection.close();
 		} catch (SQLException e) {
@@ -106,7 +134,7 @@ public class Carro {
 		return carro;
 	}
 
-	
+
 	public static void saveCarro(Carro c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -115,7 +143,7 @@ public class Carro {
 		try {
 			connection = Database.getDBConnection();
 			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano) values (?, ?, ?, ?, ?, ?)\n";
-			statement = connection.prepareStatement(query);
+			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getPlaca()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setLong(2, c.getQuilometragem());
 			statement.setString(3, c.getModelo());
@@ -123,7 +151,6 @@ public class Carro {
 			statement.setString(5, c.getCor());
 			statement.setInt(6, c.getAno());
 			statement.executeUpdate();
-			connection.commit();
 			resultSet = statement.getGeneratedKeys();
 
 		} catch (SQLException exception) {
@@ -146,5 +173,78 @@ public class Carro {
 		}
 
 	}
-	
+
+	public static List<Carro> getAll() {
+		Connection connection = null;
+		PreparedStatement statement;
+		List<Carro> carros = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Carro";
+			statement = connection.prepareStatement(query);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Carro car = new Carro();
+				car.setCor(rs.getString("Cor"));
+				car.setMarca(rs.getString("Marca"));
+				car.setAno(Integer.parseInt(rs.getString("Ano")));
+				car.setQuilometragem(Integer.parseInt(rs.getString("KM")));
+				car.setModelo(rs.getString("Modelo"));
+				car.setPlaca(rs.getString("Placa"));
+				carros.add(car);
+			}
+			//System.out.println(carros);
+			return carros;
+		}
+		catch (SQLException exception) {
+			exception.getStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void updateCar(Carro c) throws SQLException{
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "update Carro set Cor=?, Marca=?, Ano=?, KM=?, Modelo=? where Placa=?";
+			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, c.getCor());
+			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+			statement.setString(2, c.getMarca());
+			statement.setLong(3, c.getAno());
+			statement.setLong(4, c.getQuilometragem());
+			statement.setString(5, c.getModelo());
+			statement.setString(6, c.getPlaca());
+
+			statement.executeUpdate();
+			resultSet = statement.getGeneratedKeys();
+			System.out.println("atualizou");
+
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			if (null != resultSet) {
+				resultSet.close();
+			}
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+
 }

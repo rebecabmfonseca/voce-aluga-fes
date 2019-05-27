@@ -113,6 +113,7 @@ public class ControleCliente implements Initializable{
 			CNHCol.setCellValueFactory(new PropertyValueFactory<>("CNH"));
 			EmailCol.setCellValueFactory(new PropertyValueFactory<>("Email"));
 			ObservableList<Cliente> lista = FXCollections.observableArrayList(listaCliente);
+			System.out.println(lista);
 			tableCliente.setItems( lista );
 		}
 		if(location.toString().contains("TelaCadastroCliente")){
