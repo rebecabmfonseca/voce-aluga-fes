@@ -117,6 +117,7 @@ public class ControleVeiculo implements Initializable{
 		}
 	}
 
+
 	public void novaPagina(String path){
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
@@ -185,24 +186,48 @@ public class ControleVeiculo implements Initializable{
 
 	@FXML
     void removerVeiculo(ActionEvent event) {
-    	TextInputDialog dialog = new TextInputDialog();
-    	dialog.setTitle("Remover Veiculo");
-    	dialog.setHeaderText("Identificando o Veiculo");
-    	dialog.setContentText("Por favor, informe a Placa do Veiculo");
+		String carroSelecionado;
 
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()){
-    	    System.out.println("Sua Placa éa: " + result.get());
-    	    try {
-				Carro.removeCarro(result.get());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	    //ToDo
-    	    //Buscar o cliente
-        	//Perguntar se quer remover
-    		//Remover
+    	if(table.getSelectionModel().getSelectedItem()!= null){
+    		carroSelecionado = table.getSelectionModel().getSelectedItem().getPlaca();
+    	}else{
+
+	    	TextInputDialog dialog = new TextInputDialog();
+	    	dialog.setTitle("Remover Veiculo");
+	    	dialog.setHeaderText("Identificando o Veiculo");
+	    	dialog.setContentText("Por favor, informe a Placa do Veiculo");
+	    	Optional<String> result = dialog.showAndWait();
+	    	carroSelecionado = result.get();
+    	}
+    	Carro c = new Carro();
+    	c = Carro.getCarro(carroSelecionado);
+    	if(c==null){
+    		Alert alert = new Alert(AlertType.ERROR);
+    	   	alert.setTitle("Remover Carro");
+    	   	alert.setHeaderText("");
+    	   	alert.setContentText("Carro não encontrado!");
+    	   	alert.showAndWait();
+    	}else{
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+    		alert.setTitle("Remover Carro");
+    		alert.setHeaderText(null);
+    		alert.setContentText("Tem certeza que quer remover esse carro ?");
+
+    		Optional<ButtonType> result = alert.showAndWait();
+    		if (result.get() == ButtonType.OK){
+    			try {
+        			Carro.removeCarro(carroSelecionado);
+        			Alert alerta = new Alert(AlertType.INFORMATION);
+        			alerta.setTitle("Remover Carro");
+        			alerta.setHeaderText(null);
+        			alerta.setContentText("Removido com sucesso!");
+       				alerta.showAndWait();
+        			} catch (SQLException e) {
+        				e.printStackTrace();
+        			}
+
+    		}
+
     	}
     }
 
@@ -248,21 +273,42 @@ public class ControleVeiculo implements Initializable{
 	    			txtCor.getText().toUpperCase(),
 	    			Integer.parseInt(txtAno.getText())
 	    			);
+	    	if(carroEditavel==null){
+		    	try {
+					Carro.saveCarro(c);
+					limparCampos();
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Dados do Cliente");
+					alert.setHeaderText(null);
+					alert.setContentText("Cadastro realizado com sucesso!");
+					alert.showAndWait();
+					Stage stage = (Stage) idSalvar.getScene().getWindow();
+				 	stage.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 
-	    	try {
-				Carro.saveCarro(c);
-				limparCampos();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Dados do Cliente");
-				alert.setHeaderText(null);
-				alert.setContentText("Cadastro realizado com sucesso!");
-				alert.showAndWait();
-				Stage stage = (Stage) idSalvar.getScene().getWindow();
-			 	stage.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	}
+
+	    	}else{
+	    		try {
+					Carro.updateCar(c);
+					limparCampos();
+					carroEditavel = null;
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Dados do Cliente");
+					alert.setHeaderText(null);
+					alert.setContentText("Cadastro atualizado com sucesso!");
+					alert.showAndWait();
+					Stage stage = (Stage) idSalvar.getScene().getWindow();
+				 	stage.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
+
+     }
+
 
     }
 

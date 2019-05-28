@@ -209,7 +209,7 @@ public class Carro {
 		return null;
 	}
 
-	public void updateCar(Carro c) throws SQLException{
+	public static void updateCar(Carro c) throws SQLException{
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;

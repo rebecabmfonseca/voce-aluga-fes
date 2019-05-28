@@ -232,7 +232,7 @@ public class ControleCliente implements Initializable{
     void removerCliente(ActionEvent event)  {
     	String cpfSelecionado;
 
-    	if(tableCliente.getSelectionModel().getSelectedItem().getCPF()!= null){
+    	if(tableCliente.getSelectionModel().getSelectedItem()!= null){
     		cpfSelecionado = tableCliente.getSelectionModel().getSelectedItem().getCPF();
     	}else{
     		TextInputDialog dialog = new TextInputDialog();
