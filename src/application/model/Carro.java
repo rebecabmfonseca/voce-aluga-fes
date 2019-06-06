@@ -4,20 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Carro {
 	String placa;
-	long quilometragem;
+	int quilometragem;
 	String modelo;
 	String marca;
 	String cor;
 	int ano;
 
-	public Carro(String placa, long quilometragem, String modelo, String marca, String cor, int ano) {
+	public Carro(String placa, int quilometragem, String modelo, String marca, String cor, int ano) {
 		this.placa = placa;
 		this.quilometragem = quilometragem;
 		this.modelo = modelo;
@@ -37,7 +36,7 @@ public class Carro {
 		return placa;
 	}
 
-	public void setQuilometragem(long Quilometragem){
+	public void setQuilometragem(int Quilometragem){
 		this.quilometragem = Quilometragem;
 	}
 	public long getQuilometragem() {
@@ -143,7 +142,7 @@ public class Carro {
 		try {
 			connection = Database.getDBConnection();
 			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano) values (?, ?, ?, ?, ?, ?)\n";
-			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getPlaca()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setLong(2, c.getQuilometragem());
 			statement.setString(3, c.getModelo());
@@ -194,7 +193,7 @@ public class Carro {
 				car.setPlaca(rs.getString("Placa"));
 				carros.add(car);
 			}
-			//System.out.println(carros);
+
 			return carros;
 		}
 		catch (SQLException exception) {
@@ -217,7 +216,7 @@ public class Carro {
 		try {
 			connection = Database.getDBConnection();
 			String query = "update Carro set Cor=?, Marca=?, Ano=?, KM=?, Modelo=? where Placa=?";
-			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getCor());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setString(2, c.getMarca());

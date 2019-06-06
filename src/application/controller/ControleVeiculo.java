@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Carro;
-import application.model.Cliente;
-import application.model.Pessoa;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +19,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -72,7 +69,7 @@ public class ControleVeiculo implements Initializable{
     private TableColumn<Carro, String> ColAno;
 
     @FXML
-    private TableColumn<Carro, Integer> ColKM;
+    private TableColumn<Carro, String> ColKM;
 
     @FXML
     private TableColumn<Carro, String> ColModelo;
@@ -97,11 +94,13 @@ public class ControleVeiculo implements Initializable{
 			ColCor.setCellValueFactory(new PropertyValueFactory<>("Cor"));
 			ColMarca.setCellValueFactory(new PropertyValueFactory<>("Marca"));
 			ColAno.setCellValueFactory(new PropertyValueFactory<>("Ano"));
-			ColKM.setCellValueFactory(new PropertyValueFactory<>("KM"));
+			ColKM.setCellValueFactory(new PropertyValueFactory<>("Quilometragem"));
 			ColModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
 			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Placa"));
+
 			ObservableList<Carro> lista = FXCollections.observableArrayList(listaCarro);
 			table.setItems( lista );
+
 
 		}
 		if(location.toString().contains("TelaCadastroVeiculo")){

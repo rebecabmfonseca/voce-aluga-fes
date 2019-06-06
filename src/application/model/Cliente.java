@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +31,6 @@ public class Cliente extends Pessoa
 
 	public Cliente() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public static List<Cliente> getAll(){
 		Connection connection = null;
@@ -51,6 +51,7 @@ public class Cliente extends Pessoa
 				user.setCEP(rs.getString("CEP"));
 				user.setCNH(rs.getString("CNH"));
 				String data = rs.getString("Data_Nasc");
+				@SuppressWarnings("deprecation")
 				Date date = new Date(data);
 				Calendar cal = Calendar.getInstance();
 		    	cal.setTime(date);
@@ -90,6 +91,7 @@ public class Cliente extends Pessoa
 				user.setCEP(rs.getString("CEP"));
 				user.setCNH(rs.getString("CNH"));
 				String data = rs.getString("Data_Nasc");
+				@SuppressWarnings("deprecation")
 				Date date = new Date(data);
 				Calendar cal = Calendar.getInstance();
 		    	cal.setTime(date);
@@ -106,7 +108,6 @@ public class Cliente extends Pessoa
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -121,7 +122,7 @@ public class Cliente extends Pessoa
 		try {
 			connection = Database.getDBConnection();
 			String query = "update Cliente set Nome=?, Telefone=?, Endereco=?, CEP=?, Data_Nasc=?, Email=? where CNH=?";
-			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getNome());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setString(2, c.getTelefone());
@@ -161,7 +162,7 @@ public class Cliente extends Pessoa
 		try {
 			connection = Database.getDBConnection();
 			String query = "insert into Cliente (Nome, Telefone, Endereco, CEP, Data_Nasc, Lista_Negra, CNH, CPF, Email) values (?, ?, ?, ?, ?, ?, ?, ?,?)\n";
-			statement = connection.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getNome());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setString(2, c.getTelefone());
