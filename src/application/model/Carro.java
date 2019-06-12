@@ -15,14 +15,16 @@ public class Carro {
 	String marca;
 	String cor;
 	int ano;
+	String grupo;
 
-	public Carro(String placa, int quilometragem, String modelo, String marca, String cor, int ano) {
+	public Carro(String placa, int quilometragem, String modelo, String marca, String cor, int ano, String grupo) {
 		this.placa = placa;
 		this.quilometragem = quilometragem;
 		this.modelo = modelo;
 		this.marca = marca;
 		this.cor = cor;
 		this.ano = ano;
+		this.grupo = grupo;
 	}
 
 	public Carro() {
@@ -72,10 +74,16 @@ public class Carro {
 	public int getAno() {
 		return ano;
 	}
+	public String getGrupo() {
+		return this.grupo;
+	}
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}
 
 	public String toString() {
 		return "Modelo: " + this.modelo + "\nAno: " + this.ano + "\nCor: " + this.cor + "\nPlaca: " + this.placa +
-				"\nMarca: " + this.marca + "\nQuilometragem: " + this.quilometragem;
+				"\nMarca: " + this.marca + "\nQuilometragem: " + this.quilometragem + "\nGrupo: "+this.grupo;
 	}
 
 	public static void removeCarro(String placa) throws SQLException {
@@ -119,7 +127,7 @@ public class Carro {
 //			System.out.println("1 " + resultSet.getString("Placa"));
 			while (resultSet.next()) {
 				System.out.println("2");
-				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"));
+				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"), resultSet.getString("Grupo"));
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -138,10 +146,11 @@ public class Carro {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-
+		System.out.println("Entrei na fç savecarro");
 		try {
+			System.out.println("Tentando...");
 			connection = Database.getDBConnection();
-			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano) values (?, ?, ?, ?, ?, ?)\n";
+			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano, Grupo) values (?, ?, ?, ?, ?, ?, ?)\n";
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getPlaca()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setLong(2, c.getQuilometragem());
@@ -149,13 +158,12 @@ public class Carro {
 			statement.setString(4, c.getMarca());
 			statement.setString(5, c.getCor());
 			statement.setInt(6, c.getAno());
+			statement.setString(7, c.getGrupo());
+			System.out.println("SQL: "+query);
 			statement.executeUpdate();
 			resultSet = statement.getGeneratedKeys();
 
 		} catch (SQLException exception) {
-//			if (null != connection) {
-//				connection.rollback();
-//			}
 			exception.printStackTrace();
 		} finally {
 			if (null != resultSet) {
@@ -191,6 +199,7 @@ public class Carro {
 				car.setQuilometragem(Integer.parseInt(rs.getString("KM")));
 				car.setModelo(rs.getString("Modelo"));
 				car.setPlaca(rs.getString("Placa"));
+				car.setGrupo(rs.getString("Grupo"));
 				carros.add(car);
 			}
 
@@ -215,7 +224,7 @@ public class Carro {
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "update Carro set Cor=?, Marca=?, Ano=?, KM=?, Modelo=? where Placa=?";
+			String query = "update Carro set Cor=?, Marca=?, Ano=?, KM=?, Modelo=?, Grupo=? where Placa=?";
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getCor());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
@@ -223,7 +232,8 @@ public class Carro {
 			statement.setLong(3, c.getAno());
 			statement.setLong(4, c.getQuilometragem());
 			statement.setString(5, c.getModelo());
-			statement.setString(6, c.getPlaca());
+			statement.setString(6, c.getGrupo());
+			statement.setString(7, c.getPlaca());
 
 			statement.executeUpdate();
 			resultSet = statement.getGeneratedKeys();
@@ -245,5 +255,7 @@ public class Carro {
 			}
 		}
 	}
+
+
 
 }

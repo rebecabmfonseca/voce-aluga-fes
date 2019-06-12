@@ -50,6 +50,8 @@ public class ControleVeiculo implements Initializable{
     @FXML
     private TextField txtPlaca;
     @FXML
+    private TextField txtGrupo;
+    @FXML
     private AnchorPane telaCadastroCliente;
     @FXML
     private Button btnAlterar;
@@ -73,11 +75,12 @@ public class ControleVeiculo implements Initializable{
 
     @FXML
     private TableColumn<Carro, String> ColModelo;
-
     @FXML
     private TableColumn<Carro, String> ColPlaca;
+    @FXML
+    private TableColumn<Carro, String> ColGrupo;
 
-    public static Carro carroEditavel = new Carro();
+    public static Carro carroEditavel;
 
     @FXML
     void irPaginaCadastrar(ActionEvent event) {
@@ -97,6 +100,7 @@ public class ControleVeiculo implements Initializable{
 			ColKM.setCellValueFactory(new PropertyValueFactory<>("Quilometragem"));
 			ColModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
 			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Placa"));
+			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Grupo"));
 
 			ObservableList<Carro> lista = FXCollections.observableArrayList(listaCarro);
 			table.setItems( lista );
@@ -112,6 +116,7 @@ public class ControleVeiculo implements Initializable{
 				txtKM.setText(Integer.toString((int)carroEditavel.getQuilometragem()));
 				txtModelo.setText(carroEditavel.getModelo());
 				txtPlaca.setText(carroEditavel.getPlaca());
+				txtGrupo.setText(carroEditavel.getGrupo());
 				}
 		}
 	}
@@ -162,6 +167,7 @@ public class ControleVeiculo implements Initializable{
         	Optional<String> result = dialog.showAndWait();
         	placaSelecionada = result.get();
     	}
+    	carroEditavel = new Carro();
     	carroEditavel = Carro.getCarro(placaSelecionada);
     	if(carroEditavel==null){
 	    	Alert alert = new Alert(AlertType.ERROR);
@@ -233,7 +239,6 @@ public class ControleVeiculo implements Initializable{
     @FXML
     void salvarDados(ActionEvent event) {
     	boolean cadastroValido = true;
-
     	//Carregar os dados na classe
 
     	if(txtCor.getText().length() == 0) {
@@ -263,6 +268,10 @@ public class ControleVeiculo implements Initializable{
     		cadastroValido = false;
     		System.out.println("Preencha o campo Placa.");
     	}
+    	if(txtGrupo.getText().length() == 0) {
+    		cadastroValido = false;
+    		System.out.println("Preencha o campo Grupo.");
+    	}
     	if(cadastroValido){
 	    	Carro c = new Carro(
 	    			txtPlaca.getText().toUpperCase(),
@@ -270,7 +279,8 @@ public class ControleVeiculo implements Initializable{
 	    			txtModelo.getText().toUpperCase(),
 	    			txtMarca.getText().toUpperCase(),
 	    			txtCor.getText().toUpperCase(),
-	    			Integer.parseInt(txtAno.getText())
+	    			Integer.parseInt(txtAno.getText()),
+	    			txtGrupo.getText().toUpperCase()
 	    			);
 	    	if(carroEditavel==null){
 		    	try {
@@ -305,12 +315,8 @@ public class ControleVeiculo implements Initializable{
 					e.printStackTrace();
 				}
 	    	}
-
      }
-
-
     }
-
 
 	private void limparCampos() {
 		txtPlaca.setText("");
@@ -319,8 +325,6 @@ public class ControleVeiculo implements Initializable{
 		txtMarca.setText("");
 		txtCor.setText("");
 		txtAno.setText("");
-
+		txtGrupo.setText("");
 	}
-
-
 }

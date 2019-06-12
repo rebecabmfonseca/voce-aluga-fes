@@ -47,5 +47,7 @@
             <Image url="@../imgs/car.png" />
          </image>
       </ImageView>
+      <Text layoutX="53.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupo" />
+      <TextField fx:id="txtGrupo" layoutX="195.0" layoutY="426.0" prefHeight="26.0" prefWidth="195.0" />
    </children>
 </AnchorPane>
