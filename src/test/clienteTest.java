@@ -1,3 +1,4 @@
+package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
@@ -36,7 +37,9 @@ class clienteTest {
 	@Test
 	void testRemoveCliente() {
 		try {
-			Cliente.removeCliente("12345678900");
+			Cliente.removeCliente("12345678914");
+			Cliente.removeCliente("12346674920");
+			Cliente.removeCliente("12243275410");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			fail("remove");

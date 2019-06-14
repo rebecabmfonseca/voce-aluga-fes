@@ -124,7 +124,6 @@ public class Carro {
 			statement.setString(1, placa);
 			ResultSet resultSet = statement.executeQuery();
 
-//			System.out.println("1 " + resultSet.getString("Placa"));
 			while (resultSet.next()) {
 				System.out.println("2");
 				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"), resultSet.getString("Grupo"));
@@ -227,7 +226,6 @@ public class Carro {
 			String query = "update Carro set Cor=?, Marca=?, Ano=?, KM=?, Modelo=?, Grupo=? where Placa=?";
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, c.getCor());
-			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
 			statement.setString(2, c.getMarca());
 			statement.setLong(3, c.getAno());
 			statement.setLong(4, c.getQuilometragem());
