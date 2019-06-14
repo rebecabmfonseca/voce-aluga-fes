@@ -24,6 +24,10 @@ public class ControleInicial implements Initializable{
 		novaPagina(path);
 
 	}
+    public void irPaginaAluguel(ActionEvent event) throws IOException {
+		String path = "application/view/TelaAluguel.fxml";
+		novaPagina(path);
+    }
 
 
 	public void novaPagina(String path){
