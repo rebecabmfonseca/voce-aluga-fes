@@ -216,6 +216,36 @@ public class Carro {
 		return null;
 	}
 
+	public static List<String> getAllGrupos() {
+		Connection connection = null;
+		PreparedStatement statement;
+		List<String> grupos = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT DISTINCT(Grupo) FROM Carro";
+			statement = connection.prepareStatement(query);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				grupos.add(rs.getString("Grupo"));
+			}
+
+			return grupos;
+		}
+		catch (SQLException exception) {
+			exception.getStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
+
 	public static void updateCar(Carro c) throws SQLException{
 		Connection connection = null;
 		PreparedStatement statement = null;

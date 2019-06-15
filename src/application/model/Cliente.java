@@ -72,6 +72,32 @@ public class Cliente extends Pessoa
 
 	}
 
+	public static List<String> getAllNames(){
+		Connection connection = null;
+		PreparedStatement statement;
+		List<String> nomeClientes = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT Nome FROM Cliente";
+			statement = connection.prepareStatement(query);
+	 // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				nomeClientes.add(rs.getString("Nome"));
+				}
+		} catch (SQLException exception) {
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nomeClientes;
+
+	}
+
+
 	public static Cliente getCliente(String CPF) {
 		Connection connection = null;
 		PreparedStatement statement;
