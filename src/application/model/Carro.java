@@ -243,6 +243,35 @@ public class Carro {
 
 		return null;
 	}
+	public static List<String> getCarOfAGroup(String grupo) {
+		Connection connection = null;
+		PreparedStatement statement;
+		List<String> carros = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT Marca FROM Carro WHERE Grupo=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, grupo);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				carros.add(rs.getString("Marca"));
+			}
+
+			return carros;
+		}
+		catch (SQLException exception) {
+			exception.getStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 
 
 

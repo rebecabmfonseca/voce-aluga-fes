@@ -14,11 +14,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -40,11 +45,11 @@ public class ControleAluguel implements Initializable{
     @FXML
     private ComboBox<String> comboCliente;
     @FXML
-    private ComboBox<?> comboSeguro;
+    private ComboBox<String> comboSeguro;
     @FXML
     private ComboBox<String> comboGrupoCarro;
     @FXML
-    private ComboBox<?> comboCarro;
+    private ComboBox<String> comboCarro;
     @FXML
     private DatePicker dataRetirada;
     @FXML
@@ -55,6 +60,10 @@ public class ControleAluguel implements Initializable{
     private Button btnSair;
     private List<String> nomeClientes;
     private List<String> nomeGrupos;
+    private List<String> marcaCarros;
+    @FXML
+    private Text txtErro;
+
 
     @Override
 	public void initialize(URL location, ResourceBundle resource) {
@@ -66,9 +75,27 @@ public class ControleAluguel implements Initializable{
 	        nomeGrupos = Carro.getAllGrupos();
 	        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
 	        comboGrupoCarro.setItems(listGrupos);
+
+	        ObservableList<String> listSeguros = FXCollections.observableArrayList("Básico","Avançado");
+	        comboSeguro.setItems(listSeguros);
 		}
     	if(location.toString().contains("TelaAluguel")){
 
+    	}
+
+    }
+    @FXML
+    void carregaCarrosDeGrupoEspecifico(MouseEvent event) {
+    	if(comboGrupoCarro.getValue() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Grupo do Carro");
+	    	alert.setHeaderText("");
+	    	alert.setContentText("Selecione um Grupo antes de selecionar um Carro!");
+	    	alert.showAndWait();
+    	}else{
+    		marcaCarros = Carro.getCarOfAGroup(comboGrupoCarro.getValue());
+    		ObservableList<String> listCars = FXCollections.observableArrayList(marcaCarros);
+	        comboCarro.setItems(listCars);
     	}
 
     }
@@ -83,6 +110,7 @@ public class ControleAluguel implements Initializable{
     void cadastrarAluguel(ActionEvent event) {
     	String path = "application/view/TelaCadastroAluguel.fxml";
 		novaPagina(path);
+
     }
 
     private void novaPagina(String path) {
@@ -105,6 +133,43 @@ public class ControleAluguel implements Initializable{
 	@FXML
     void cancelarAluguel(ActionEvent event) {
     	System.out.println("Clicou no botão cancelar");
+    }
+
+	@FXML
+    void salvarAluguel(ActionEvent event) {
+		boolean cadastroValido = true;
+		if(comboCliente.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione com o nome do Cliente.");
+		}
+		if(comboSeguro.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione com o Seguro.");
+		}
+		if(comboGrupoCarro.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione o Grupo do Carro.");
+		}
+		if(comboCarro.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione com o nome do Carro.");
+		}
+		if(dataRetirada.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione com a Data de Retirada.");
+		}
+		if(dataEntrega.getValue() == null){
+			cadastroValido = false;
+    		txtErro.setText(txtErro.getText()+"\nSelecione com a Data de Entrega.");
+		}
+		if(cadastroValido){
+			System.out.println("Dados obtidos: \n"+"Cliente:"+comboCliente.getValue()
+			+"\nSeguro:"+comboSeguro.getValue()+"\nGrupo:"+comboGrupoCarro.getValue()
+			+"\nCarro:"+comboCarro.getValue()+"\nData Retirada:"+dataRetirada.getValue()
+			+"\nData Entrega:"+dataEntrega.getValue()
+		);
+		}
+
     }
 
 
