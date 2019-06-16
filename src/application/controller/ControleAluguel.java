@@ -1,7 +1,9 @@
 package application.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Carro;
@@ -20,6 +22,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
@@ -60,6 +63,7 @@ public class ControleAluguel implements Initializable{
     private Button btnSair;
     private List<String> nomeClientes;
     private List<String> nomeGrupos;
+    private List<String> gruposDisp;
     private List<String> marcaCarros;
     @FXML
     private Text txtErro;
@@ -72,7 +76,14 @@ public class ControleAluguel implements Initializable{
 	        ObservableList<String> listClientes = FXCollections.observableArrayList(nomeClientes);
 	        comboCliente.setItems(listClientes);
 
-	        nomeGrupos = Carro.getAllGrupos();
+	        nomeGrupos = new ArrayList<>();
+	        nomeGrupos.add("A");
+	        nomeGrupos.add("B");
+	        nomeGrupos.add("C");
+	        nomeGrupos.add("D");
+	        nomeGrupos.add("E");
+	        nomeGrupos.add("F");
+
 	        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
 	        comboGrupoCarro.setItems(listGrupos);
 
@@ -97,10 +108,70 @@ public class ControleAluguel implements Initializable{
     		ObservableList<String> listCars = FXCollections.observableArrayList(marcaCarros);
 	        comboCarro.setItems(listCars);
     	}
-
+    }
+    
+    //funcao sem ser chamada pelo fxml
+    void carregaCarrosDeGrupoEspecifico() {
+    	if(comboGrupoCarro.getValue() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Grupo do Carro");
+	    	alert.setHeaderText("");
+	    	alert.setContentText("Selecione um Grupo antes de selecionar um Carro!");
+	    	alert.showAndWait();
+    	}else{
+    		marcaCarros = Carro.getCarOfAGroup(comboGrupoCarro.getValue());
+    		ObservableList<String> listCars = FXCollections.observableArrayList(marcaCarros);
+	        comboCarro.setItems(listCars);
+    	}
+    }
+    
+	@FXML
+    void checaDispGrupo(ActionEvent event) {
+    	gruposDisp = new ArrayList<>();
+    	gruposDisp = Carro.getAllGrupos();
+    	String grupoDesejado = comboGrupoCarro.getValue();
+    	boolean grupoAtualizado = false;
+    	
+    	if(!gruposDisp.contains(comboGrupoCarro.getValue())) {   		
+    		int indexGrpDesej = nomeGrupos.indexOf(grupoDesejado);
+    		
+    		//checar por grupos para upgrade
+    		for(int i = indexGrpDesej; i < nomeGrupos.size() - indexGrpDesej; i++) {
+    			if(gruposDisp.contains(nomeGrupos.get(i))) {
+        			comboGrupoCarro.setValue(nomeGrupos.get(i));
+        			carregaCarrosDeGrupoEspecifico();
+        			System.out.println("a");
+        			txtErro.setText("Nao existem carros do grupo " + grupoDesejado + " no momento. Upgrade efetuado.");
+        			grupoAtualizado = true;
+        			break;
+    			}
+    		}
+    		
+    		//checar por grupos para downgrade
+    		if(!grupoAtualizado) {
+        		for(int i = indexGrpDesej; i > 0; i--) {
+        			if(gruposDisp.contains(nomeGrupos.get(i))) {
+            			comboGrupoCarro.setValue(nomeGrupos.get(i));
+            			carregaCarrosDeGrupoEspecifico();
+            			System.out.println("a");
+            			txtErro.setText("Nao existem carros do grupo " + grupoDesejado + " ou de grupos superiores no momento. Downgrade efetuado.");
+            			grupoAtualizado = true;
+            			break;
+        			}
+        		}
+    		} 
+    		//caso nao haja possibilidade de upgrade ou downgrade = sem carro
+    		if(!grupoAtualizado){
+        		Alert alert = new Alert(AlertType.ERROR);
+    	    	alert.setTitle("Grupos de Carro");
+    	    	alert.setHeaderText("");
+    	    	alert.setContentText("No momento nao existem carros disponiveis.");
+    	    	alert.showAndWait();
+    		}
+    	}
     }
 
-    @FXML
+	@FXML
     void alterarAluguel(ActionEvent event) {
     	System.out.println("Clicou no botão alterar");
 

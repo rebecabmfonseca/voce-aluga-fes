@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Carro {
@@ -215,6 +217,19 @@ public class Carro {
 
 		return null;
 	}
+	
+	private static List<String> OrdenaGrupos(List<String> arr){
+        for(int j=0;j<arr.size();j++){
+            for(int i=j+1;i<arr.size();i++){
+                if((arr.get(i)).compareToIgnoreCase(arr.get(j))<0){
+                    String t = arr.get(j);
+                    arr.set(j, arr.get(i));
+                    arr.set(i, t);
+                }
+            }
+        }
+        return arr;
+	}
 
 	public static List<String> getAllGrupos() {
 		Connection connection = null;
@@ -229,8 +244,7 @@ public class Carro {
 			while (rs.next()) {
 				grupos.add(rs.getString("Grupo"));
 			}
-
-			return grupos;
+			return OrdenaGrupos(grupos);
 		}
 		catch (SQLException exception) {
 			exception.getStackTrace();
@@ -243,6 +257,7 @@ public class Carro {
 
 		return null;
 	}
+	
 	public static List<String> getCarOfAGroup(String grupo) {
 		Connection connection = null;
 		PreparedStatement statement;
@@ -270,6 +285,15 @@ public class Carro {
 		}
 
 		return null;
+	}
+	
+	public static List<String> getAvailableCarOfAGroup(String grupo)	{
+		List<String> carros = new ArrayList<>();
+		carros = Carro.getCarOfAGroup(grupo);
+		
+		for(int i = 0; i < carros.size(); i++) {
+			
+		}
 	}
 
 
@@ -312,7 +336,5 @@ public class Carro {
 			}
 		}
 	}
-
-
 
 }

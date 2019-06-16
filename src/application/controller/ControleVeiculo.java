@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -50,13 +51,14 @@ public class ControleVeiculo implements Initializable{
     @FXML
     private TextField txtPlaca;
     @FXML
-    private TextField txtGrupo;
-    @FXML
     private AnchorPane telaCadastroCliente;
     @FXML
     private Button btnAlterar;
     @FXML
     private Button btnRemover;
+    
+    @FXML
+    private ComboBox<String> comboGrupoCarro;
 
     @FXML
     private TableView<Carro> table;
@@ -81,7 +83,8 @@ public class ControleVeiculo implements Initializable{
     private TableColumn<Carro, String> ColGrupo;
 
     public static Carro carroEditavel;
-
+    private List<String> nomeGrupos;
+   
     @FXML
     void irPaginaCadastrar(ActionEvent event) {
     	String path = "application/view/TelaCadastroVeiculo.fxml";
@@ -105,7 +108,6 @@ public class ControleVeiculo implements Initializable{
 			ObservableList<Carro> lista = FXCollections.observableArrayList(listaCarro);
 			table.setItems( lista );
 
-
 		}
 		if(location.toString().contains("TelaCadastroVeiculo")){
 
@@ -116,7 +118,28 @@ public class ControleVeiculo implements Initializable{
 				txtKM.setText(Integer.toString((int)carroEditavel.getQuilometragem()));
 				txtModelo.setText(carroEditavel.getModelo());
 				txtPlaca.setText(carroEditavel.getPlaca());
-				txtGrupo.setText(carroEditavel.getGrupo());
+				comboGrupoCarro.setValue(carroEditavel.getGrupo());
+		        nomeGrupos = new ArrayList<>();
+		        nomeGrupos.add("A");
+		        nomeGrupos.add("B");
+		        nomeGrupos.add("C");
+		        nomeGrupos.add("D");
+		        nomeGrupos.add("E");
+		        nomeGrupos.add("F");
+
+		        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
+		        comboGrupoCarro.setItems(listGrupos);
+				} else {
+			        nomeGrupos = new ArrayList<>();
+			        nomeGrupos.add("A");
+			        nomeGrupos.add("B");
+			        nomeGrupos.add("C");
+			        nomeGrupos.add("D");
+			        nomeGrupos.add("E");
+			        nomeGrupos.add("F");
+
+			        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
+			        comboGrupoCarro.setItems(listGrupos);
 				}
 		}
 	}
@@ -268,9 +291,9 @@ public class ControleVeiculo implements Initializable{
     		cadastroValido = false;
     		System.out.println("Preencha o campo Placa.");
     	}
-    	if(txtGrupo.getText().length() == 0) {
+    	if(comboGrupoCarro.getValue() == "N") {
     		cadastroValido = false;
-    		System.out.println("Preencha o campo Grupo.");
+    		System.out.println("Selecione o Grupo.");
     	}
     	if(cadastroValido){
 	    	Carro c = new Carro(
@@ -280,7 +303,7 @@ public class ControleVeiculo implements Initializable{
 	    			txtMarca.getText().toUpperCase(),
 	    			txtCor.getText().toUpperCase(),
 	    			Integer.parseInt(txtAno.getText()),
-	    			txtGrupo.getText().toUpperCase()
+	    			comboGrupoCarro.getValue()
 	    			);
 	    	if(carroEditavel==null){
 		    	try {
@@ -315,7 +338,7 @@ public class ControleVeiculo implements Initializable{
 					e.printStackTrace();
 				}
 	    	}
-     }
+    	}
     }
 
 	private void limparCampos() {
@@ -325,6 +348,6 @@ public class ControleVeiculo implements Initializable{
 		txtMarca.setText("");
 		txtCor.setText("");
 		txtAno.setText("");
-		txtGrupo.setText("");
+		comboGrupoCarro.setValue("N");
 	}
 }

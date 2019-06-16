@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleAluguel">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleAluguel">
    <children>
       <ImageView fitHeight="117.0" fitWidth="114.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,11 +22,11 @@
          </font>
       </Text>
       <Text layoutX="32.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente:" />
-      <ComboBox fx:id="comboCliente" layoutX="134.0" layoutY="181.0" prefHeight="26.0" prefWidth="427.0" promptText="Selecione" />
+      <ComboBox fx:id="comboCliente" layoutX="134.0" layoutY="181.0" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
       <Text layoutX="33.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seguro:" />
       <ComboBox fx:id="comboSeguro" layoutX="135.0" layoutY="235.0" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
       <Text layoutX="20.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupo do carro:" />
-      <ComboBox fx:id="comboGrupoCarro" layoutX="135.0" layoutY="287.0" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
+      <ComboBox fx:id="comboGrupoCarro" layoutX="135.0" layoutY="287.0" onAction="#checaDispGrupo" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
       <Text layoutX="33.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carro:" />
       <ComboBox fx:id="comboCarro" layoutX="135.0" layoutY="338.0" onMouseClicked="#carregaCarrosDeGrupoEspecifico" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
       <Text layoutX="13.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Retirada:" />
@@ -44,5 +44,11 @@
          </font>
       </Button>
       <Text fx:id="txtErro" layoutX="69.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button ellipsisString="+" layoutX="457.0" layoutY="182.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="0.0" text="Adicionar novo cliente" textAlignment="CENTER" />
+      <Text id="updowngrdTxt" fill="#fc0000" layoutX="135.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="322.0">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
