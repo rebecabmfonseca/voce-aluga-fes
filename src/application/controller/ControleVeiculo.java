@@ -80,6 +80,7 @@ public class ControleVeiculo implements Initializable{
     @FXML
     private TableColumn<Carro, String> ColGrupo;
 
+
     public static Carro carroEditavel;
 
     @FXML
@@ -100,7 +101,7 @@ public class ControleVeiculo implements Initializable{
 			ColKM.setCellValueFactory(new PropertyValueFactory<>("Quilometragem"));
 			ColModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
 			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Placa"));
-			ColPlaca.setCellValueFactory(new PropertyValueFactory<>("Grupo"));
+			ColGrupo.setCellValueFactory(new PropertyValueFactory<>("Grupo"));
 
 			ObservableList<Carro> lista = FXCollections.observableArrayList(listaCarro);
 			table.setItems( lista );
