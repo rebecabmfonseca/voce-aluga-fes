@@ -3,23 +3,44 @@ Use voce_aluga;
 
 create table Cliente (
 Nome varchar(50) not null,
-Telefone numeric(11),
+Telefone numeric(11,0),
 Endereco varchar(100),
 CEP varchar(100),
 Data_Nasc varchar(10),
 Lista_Negra boolean,
-CNH numeric(15), 
+CNH numeric(9,0), 
 CPF numeric(11),
 Email varchar(100),
 primary key (CNH) );
-
-
 
 create table Reserva (
 Avarias varchar(300),
 Data_Ent varchar(10) not null,
 Data_Ret varchar(10) not null,
-ID numeric(6), primary key (ID) );
+ID numeric(6,0),
+Placa varchar(8) not null,
+CNH numeric(9,0) not null,
+Apólice numeric(6,0) not null,
+primary key (ID), 
+foreign key (Placa) references Carro(Placa), 
+foreign key (CNH) references Cliente(CNH) );
+
+create table Serviços (
+ID numeric(6,0),
+primary key (ID) );
+
+create table EstMan (
+Hora_Func varchar(5),
+Endereco_1 varchar(50) not null,
+Endereco_2 varchar(50),
+ID numeric(6,0), primary key (ID) );
+
+create table Filial (
+Hora_Func varchar(5),
+Endereco_1 varchar(50) not null,
+Endereco_2 varchar(50),
+ID numeric(6,0), primary key (ID) );
+
 
 create table Carro (
 Cor varchar(50),

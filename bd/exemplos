@@ -11,3 +11,15 @@ values (‘Avarias’, ‘Data_Ent’, ‘Data_Ret’, ‘ID’)
 Para inserir um carro
 insert into Carro (Cor, Marca, Ano, KM, Modelo, Placa) 
 values (‘Cor’, ‘Marca’, ‘Ano’, ‘KM’, ‘Modelo’, ‘Placa’)
+
+insert into Reserva (Avarias, Data_Ent, Data_Ret, ID, Placa, CNH) 
+values (‘Avarias’, ‘Data_Ent’, ‘Data_Ret’, ‘123456’, ‘Placa’, ‘123456789’)
+ 
+insert into Servicos (ID) 
+values (‘123456’)
+
+insert into EstMan (Hora_Func, Endereco_1, Endereco_2, ID) 
+values (‘Hora’, ‘Endereco’, ‘Endereco’, ‘123456’)
+
+insert into Filial (Hora_Func, Endereco_1, Endereco_2, ID) 
+values (‘Hora’, ‘Endereco’, ‘Endereco’, ‘123456’)
