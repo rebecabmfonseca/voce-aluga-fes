@@ -188,7 +188,7 @@ public class Carro {
 		List<Carro> carros = new ArrayList<>();
 		try {
 			connection = Database.getDBConnection();
-			String query = "SELECT * FROM Carro";
+			String query = "SELECT * FROM Carro ORDER BY Grupo";
 			statement = connection.prepareStatement(query);
 
 			ResultSet rs = statement.executeQuery();
