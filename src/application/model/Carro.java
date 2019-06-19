@@ -122,12 +122,10 @@ public class Carro {
 			connection = Database.getDBConnection();
 			String query = "SELECT * FROM Carro WHERE Placa=?";
 			statement = connection.prepareStatement(query);
-			System.out.println("placa = " + placa);
 			statement.setString(1, placa);
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				System.out.println("2");
 				carro = new Carro(resultSet.getString("Placa"),resultSet.getInt("KM"),resultSet.getString("Modelo"),resultSet.getString("Marca"),resultSet.getString("Cor"),resultSet.getInt("Ano"), resultSet.getString("Grupo"));
 			}
 		} catch (SQLException exception) {
@@ -138,18 +136,39 @@ public class Carro {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		System.out.println("3");
 		return carro;
 	}
 
+	public static String getPlacabyModelo(String modelo) {
+		Connection connection = null;
+		PreparedStatement statement;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT Placa FROM Carro WHERE Modelo=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, modelo);
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				return resultSet.getString("Placa");
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public static void saveCarro(Carro c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		System.out.println("Entrei na fç savecarro");
 		try {
-			System.out.println("Tentando...");
 			connection = Database.getDBConnection();
 			String query = "insert into Carro (Placa, KM, Modelo, Marca, Cor, Ano, Grupo) values (?, ?, ?, ?, ?, ?, ?)\n";
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -160,7 +179,6 @@ public class Carro {
 			statement.setString(5, c.getCor());
 			statement.setInt(6, c.getAno());
 			statement.setString(7, c.getGrupo());
-			System.out.println("SQL: "+query);
 			statement.executeUpdate();
 			resultSet = statement.getGeneratedKeys();
 
@@ -217,7 +235,7 @@ public class Carro {
 
 		return null;
 	}
-	
+
 	private static List<String> OrdenaGrupos(List<String> arr){
         for(int j=0;j<arr.size();j++){
             for(int i=j+1;i<arr.size();i++){
@@ -258,20 +276,20 @@ public class Carro {
 
 		return null;
 	}
-	
+
 	public static List<String> getCarOfAGroup(String grupo) {
 		Connection connection = null;
 		PreparedStatement statement;
 		List<String> carros = new ArrayList<>();
 		try {
 			connection = Database.getDBConnection();
-			String query = "SELECT Marca FROM Carro WHERE Grupo=?";
+			String query = "SELECT Modelo FROM Carro WHERE Grupo=?";
 			statement = connection.prepareStatement(query);
 			statement.setString(1, grupo);
 
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				carros.add(rs.getString("Marca"));
+				carros.add(rs.getString("Modelo"));
 			}
 			return carros;
 		}

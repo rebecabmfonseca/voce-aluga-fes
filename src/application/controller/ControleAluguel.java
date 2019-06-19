@@ -1,9 +1,9 @@
 package application.controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Aluguel;
@@ -18,17 +18,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TouchEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -68,13 +66,15 @@ public class ControleAluguel implements Initializable{
     private Button idSalvar;
     @FXML
     private Button btnSair;
+    @FXML
+    private TextField txtSeguro;
     private List<String> nomeClientes;
     private List<String> nomeGrupos;
     private List<String> gruposDisp;
     private List<String> marcaCarros;
     @FXML
     private Text txtErro;
-    
+
 	public List<Aluguel> listaAluguel = new ArrayList<>();
 
 
@@ -82,20 +82,18 @@ public class ControleAluguel implements Initializable{
 	public void initialize(URL location, ResourceBundle resource) {
 		if(location.toString().contains("TelaAluguel")){
 
-//			List<Aluguel> listaCarro = new ArrayList<>();
-//			listaCarro = Aluguel.getAll();
-			
-			colCliente.setCellValueFactory(new PropertyValueFactory<>("Cliente"));
-			colDataRetirada.setCellValueFactory(new PropertyValueFactory<>("DataRet"));
-			colDataEntrega.setCellValueFactory(new PropertyValueFactory<>("DataEnt"));
-			colCarro.setCellValueFactory(new PropertyValueFactory<>("Carro"));
+			List<Aluguel> listaAluguel = new ArrayList<>();
+			listaAluguel = Aluguel.getAll();
+			//System.out.println(listaAluguel);
+			if(listaAluguel != null){
+				colCliente.setCellValueFactory(new PropertyValueFactory<>("CNH"));
+				colDataRetirada.setCellValueFactory(new PropertyValueFactory<>("diaRetirada"));
+				colDataEntrega.setCellValueFactory(new PropertyValueFactory<>("Data_Ent"));
+				colCarro.setCellValueFactory(new PropertyValueFactory<>("placa"));
 
-			Aluguel temp = new Aluguel("aa", "bb", "12", "34");
-			listaAluguel.add(temp);
-			Aluguel temp1 = new Aluguel("aAa", "bBb", "132", "374");
-			listaAluguel.add(temp1);
-			ObservableList<Aluguel> lista = FXCollections.observableArrayList(listaAluguel);
-			table.setItems( lista );
+				ObservableList<Aluguel> lista = FXCollections.observableArrayList(listaAluguel);
+				table.setItems( lista );
+			}
 		}
     	if(location.toString().contains("CadastroAluguel")){
 	    	nomeClientes = Cliente.getAllNames();
@@ -113,8 +111,6 @@ public class ControleAluguel implements Initializable{
 	        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
 	        comboGrupoCarro.setItems(listGrupos);
 
-	        ObservableList<String> listSeguros = FXCollections.observableArrayList("Básico","Avançado");
-	        comboSeguro.setItems(listSeguros);
 		}
 
     }
@@ -132,7 +128,7 @@ public class ControleAluguel implements Initializable{
 	        comboCarro.setItems(listCars);
     	}
     }
-    
+
     //funcao sem ser chamada pelo fxml
     void carregaCarrosDeGrupoEspecifico() {
     	if(comboGrupoCarro.getValue() == null){
@@ -147,7 +143,7 @@ public class ControleAluguel implements Initializable{
 	        comboCarro.setItems(listCars);
     	}
     }
-    
+
     //disponibilidade do grupo/upgrade/downgrade
 	@FXML
     void checaDispGrupo(ActionEvent event) {
@@ -155,10 +151,10 @@ public class ControleAluguel implements Initializable{
     	gruposDisp = Carro.getAllGrupos();
     	String grupoDesejado = comboGrupoCarro.getValue();
     	boolean grupoAtualizado = false;
-    	
-    	if(!gruposDisp.contains(comboGrupoCarro.getValue())) {   		
+
+    	if(!gruposDisp.contains(comboGrupoCarro.getValue())) {
     		int indexGrpDesej = nomeGrupos.indexOf(grupoDesejado);
-    		
+
     		//checar por grupos para upgrade
     		for(int i = indexGrpDesej; i < nomeGrupos.size() - indexGrpDesej; i++) {
     			if(gruposDisp.contains(nomeGrupos.get(i))) {
@@ -170,7 +166,7 @@ public class ControleAluguel implements Initializable{
         			break;
     			}
     		}
-    		
+
     		//checar por grupos para downgrade
     		if(!grupoAtualizado) {
         		for(int i = indexGrpDesej; i > 0; i--) {
@@ -183,7 +179,7 @@ public class ControleAluguel implements Initializable{
             			break;
         			}
         		}
-    		} 
+    		}
     		//caso nao haja possibilidade de upgrade ou downgrade = sem carro
     		if(!grupoAtualizado){
         		Alert alert = new Alert(AlertType.ERROR);
@@ -225,11 +221,19 @@ public class ControleAluguel implements Initializable{
 		}
 	}
 
+    public void mascaraSeguro(){
+		TextFieldFormatter tff = new TextFieldFormatter();
+		tff.setMask("######");
+		tff.setCaracteresValidos("0123456789");
+		tff.setTf(txtSeguro);
+		tff.formatter();
+	}
+
 	@FXML
     void cancelarAluguel(ActionEvent event) {
     	System.out.println("Clicou no botão cancelar");
     }
-	
+
 	@FXML
 	void atualizarTable() {
 		ObservableList<Aluguel> lista = FXCollections.observableArrayList(listaAluguel);
@@ -243,7 +247,7 @@ public class ControleAluguel implements Initializable{
 			cadastroValido = false;
     		txtErro.setText(txtErro.getText()+"\nSelecione com o nome do Cliente.");
 		}
-		if(comboSeguro.getValue() == null){
+		if(txtSeguro.getText() == null){
 			cadastroValido = false;
     		txtErro.setText(txtErro.getText()+"\nSelecione com o Seguro.");
 		}
@@ -264,18 +268,32 @@ public class ControleAluguel implements Initializable{
     		txtErro.setText(txtErro.getText()+"\nSelecione com a Data de Entrega.");
 		}
 		if(cadastroValido){
-			System.out.println("Dados obtidos: \n"+"Cliente:"+comboCliente.getValue()
-			+"\nSeguro:"+comboSeguro.getValue()+"\nGrupo:"+comboGrupoCarro.getValue()
-			+"\nCarro:"+comboCarro.getValue()+"\nData Retirada:"+dataRetirada.getValue()
-			+"\nData Entrega:"+dataEntrega.getValue()
-		);
-			Aluguel temp = new Aluguel(comboCliente.getValue(), comboGrupoCarro.getValue(), dataRetirada.getValue().toString(), dataEntrega.getValue().toString());
-			Stage stage = (Stage) idSalvar.getScene().getWindow();
-			stage.close();listaAluguel.add(temp);
-			
+			Aluguel alu = new Aluguel();
+			alu.setCNH(Cliente.getCNHbyNome(comboCliente.getValue()));
+			alu.setApolice(txtSeguro.getText());
+			alu.setPlaca(Carro.getPlacabyModelo(comboCarro.getValue()));
+			alu.setDataEntrega(dataEntrega.getValue().getDayOfMonth(), dataEntrega.getValue().getMonthValue(), dataEntrega.getValue().getYear());
+			alu.setDataRetirada(dataRetirada.getValue().getDayOfMonth(), dataRetirada.getValue().getMonthValue(), dataRetirada.getValue().getYear());
+			try{
+				Aluguel.saveAluguel(alu);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dados do Cliente");
+				alert.setHeaderText(null);
+				alert.setContentText("Cadastro realizado com sucesso!");
+				alert.showAndWait();
+				Stage stage = (Stage) idSalvar.getScene().getWindow();
+			 	stage.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+//			Aluguel temp = new Aluguel(comboCliente.getValue(), comboGrupoCarro.getValue(), dataRetirada.getValue().toString(), dataEntrega.getValue().toString());
+	//		Stage stage = (Stage) idSalvar.getScene().getWindow();
+		//	stage.close();listaAluguel.add(temp);
+
 			//System.out.println(temp.getCliente());
 			//System.out.println(listaAluguel.get(0).getCliente()); //printa apenas o cliente recebido deste cadastro, ou seja, a lista que recebe o aluguel eh local
-			
+
 		}
 
     }

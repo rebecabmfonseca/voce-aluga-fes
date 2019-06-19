@@ -140,6 +140,34 @@ public class Cliente extends Pessoa
 
 	}
 
+
+	public static String getCNHbyNome(String nome) {
+		Connection connection = null;
+		PreparedStatement statement;
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT CNH FROM Cliente WHERE Nome=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, nome);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				return rs.getString("CNH");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+
+
 	public static void updateClient(Cliente c) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;

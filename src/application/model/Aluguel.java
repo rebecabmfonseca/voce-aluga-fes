@@ -5,226 +5,253 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class Aluguel {
-/*	String idCliente;
-	String cnhCliente;
-	String dataNascCliente;
-	String enderecoCliente;
-	String cepCliente;
-	String nomeCliente;
-	boolean listaNegra;
+	int id;
+	String avarias;
+	int diaEntrega;
+	int mesEntrega;
+	int anoEntrega;
+	int diaRetirada;
+	int mesRetirada;
+	int anoRetirada;
+	String placa;
+	String CNH;
+	String apolice;
 
-	String grupoCarro;
-	String carro;
-	String placaCarro;
-	
-	String dataRet;
-	String dataEnt;
-	Long seguro;
-	
+	public Aluguel(){
 
-	
-	public String getIdCliente() {
-		return idCliente;
 	}
 
 
-	public void setIdCliente(String idCliente) {
-		this.idCliente = idCliente;
+	@Override
+	public String toString() {
+		return "Aluguel [id=" + id + ", avarias=" + avarias + ", diaEntrega=" + diaEntrega + ", mesEntrega="
+				+ mesEntrega + ", anoEntrega=" + anoEntrega + ", diaRetirada=" + diaRetirada + ", mesRetirada="
+				+ mesRetirada + ", anoRetirada=" + anoRetirada + ", placa=" + placa + ", CNH=" + CNH + ", apolice="
+				+ apolice + "]";
 	}
 
 
-	public String getCnhCliente() {
-		return cnhCliente;
+
+
+	public Aluguel( String avarias, int diaEntrega, int mesEntrega, int anoEntrega, int diaRetirada,
+			int mesRetirada, int anoRetirada, String placa, String cNH, String apolice) {
+		this.avarias = avarias;
+		this.diaEntrega = diaEntrega;
+		this.mesEntrega = mesEntrega;
+		this.anoEntrega = anoEntrega;
+		this.diaRetirada = diaRetirada;
+		this.mesRetirada = mesRetirada;
+		this.anoRetirada = anoRetirada;
+		this.placa = placa;
+		this.CNH = cNH;
+		this.apolice = apolice;
 	}
 
-
-	public void setCnhCliente(String cnhCliente) {
-		this.cnhCliente = cnhCliente;
+	public int getId() {
+		return id;
 	}
 
-
-	public String getDataNascCliente() {
-		return dataNascCliente;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-
-	public void setDataNascCliente(String dataNascCliente) {
-		this.dataNascCliente = dataNascCliente;
+	public String getAvarias() {
+		return avarias;
 	}
 
-
-	public String getEnderecoCliente() {
-		return enderecoCliente;
+	public void setAvarias(String avarias) {
+		this.avarias = avarias;
 	}
 
-
-	public void setEnderecoCliente(String enderecoCliente) {
-		this.enderecoCliente = enderecoCliente;
+	public String getDataEntrega() {
+		return this.diaEntrega+"/"+this.mesEntrega+"/"+this.anoEntrega;
+	}
+	public void setDataEntrega(int dia, int mes, int ano){
+		this.diaEntrega = dia;
+		this.mesEntrega = mes;
+		this.anoEntrega = ano;
 	}
 
-
-	public String getCepCliente() {
-		return cepCliente;
+	public String getDataRetirada() {
+		return this.diaRetirada+"/"+this.mesRetirada+"/"+this.anoRetirada;
 	}
 
-
-	public void setCepCliente(String cepCliente) {
-		this.cepCliente = cepCliente;
+	public void setDataRetirada(int dia, int mes, int ano) {
+		this.diaRetirada = dia;
+		this.mesRetirada = mes;
+		this.anoRetirada = ano;
+	}
+	public String getPlaca() {
+		return this.placa;
 	}
 
-
-	public String getNomeCliente() {
-		return nomeCliente;
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 
-
-	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
+	public String getCNH() {
+		return CNH;
 	}
 
-
-	public boolean isListaNegra() {
-		return listaNegra;
+	public void setCNH(String cNH) {
+		CNH = cNH;
 	}
 
-
-	public void setListaNegra(boolean listaNegra) {
-		this.listaNegra = listaNegra;
+	public String getApolice() {
+		return apolice;
 	}
 
-
-	public String getGrupoCarro() {
-		return grupoCarro;
+	public void setApolice(String apolice) {
+		this.apolice = apolice;
 	}
 
-
-	public void setGrupoCarro(String grupoCarro) {
-		this.grupoCarro = grupoCarro;
-	}
-
-
-	public String getCarro() {
-		return carro;
-	}
-
-
-	public void setCarro(String carro) {
-		this.carro = carro;
-	}
-
-
-	public String getPlacaCarro() {
-		return placaCarro;
-	}
-
-
-	public void setPlacaCarro(String placaCarro) {
-		this.placaCarro = placaCarro;
-	}
-
-
-	public String getDataRet() {
-		return dataRet;
-	}
-
-
-	public void setDataRet(String dataRet) {
-		this.dataRet = dataRet;
-	}
-
-
-	public String getDataEnt() {
-		return dataEnt;
-	}
-
-
-	public void setDataEnt(String dataEnt) {
-		this.dataEnt = dataEnt;
-	}
-
-
-	public Long getSeguro() {
-		return seguro;
-	}
-
-
-	public void setSeguro(Long seguro) {
-		this.seguro = seguro;
-	}	*/
-	
-	public Aluguel(String cliente, String carro, String dataRet, String dataEnt) {
-		super();
-		this.cliente = cliente;
-		this.carro = carro;
-		this.dataRet = dataRet;
-		this.dataEnt = dataEnt;
-	}
-	
-	String cliente;
-	String carro;
-	String dataRet;
-	String dataEnt;
-	
-	public String getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
-
-	public String getCarro() {
-		return carro;
-	}
-
-	public void setCarro(String carro) {
-		this.carro = carro;
-	}
-
-	public String getDataRet() {
-		return dataRet;
-	}
-
-	public void setDataRet(String dataRet) {
-		this.dataRet = dataRet;
-	}
-
-	public String getDataEnt() {
-		return dataEnt;
-	}
-
-	public void setDataEnt(String dataEnt) {
-		this.dataEnt = dataEnt;
-	}	
-	
-/*	public static void saveAluguel(Carro c) throws SQLException {
+	public static void removeAluguel(int id) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		System.out.println("Entrei na fç savealuguel");
 		try {
-			System.out.println("Tentando...");
 			connection = Database.getDBConnection();
-			String query = "insert into Aluguel (Data_Ret, Data_Ent, Modelo, Marca, Cor, Ano, Grupo) values (?, ?, ?, ?, ?, ?, ?)\n";
-			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, c.getPlaca()); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
-			statement.setLong(2, c.getQuilometragem());
-			statement.setString(3, c.getModelo());
-			statement.setString(4, c.getMarca());
-			statement.setString(5, c.getCor());
-			statement.setInt(6, c.getAno());
-			statement.setString(7, c.getGrupo());
-			System.out.println("SQL: "+query);
+			String query = "DELETE FROM Reservas WHERE ID=?";
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+
 			statement.executeUpdate();
-			resultSet = statement.getGeneratedKeys();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+
+	public static Aluguel getAluguel(int id) {
+		Connection connection = null;
+		PreparedStatement statement;
+		Aluguel alu = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Reservas WHERE ID=?";
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+				alu = new Aluguel();
+				alu.setId(Integer.parseInt(rs.getString("ID")));
+				alu.setAvarias(rs.getString("Avarias"));
+				String dataRetirada = rs.getString("Data_Ret");
+				@SuppressWarnings("deprecation")
+				Date date = new Date(dataRetirada);
+				Calendar cal = Calendar.getInstance();
+		    	cal.setTime(date);
+		    	alu.setDataRetirada(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+		    	String dataEntrega = rs.getString("Data_Ent");
+				@SuppressWarnings("deprecation")
+				Date date2 = new Date(dataEntrega);
+				Calendar cal2 = Calendar.getInstance();
+		    	cal.setTime(date2);
+		    	alu.setDataRetirada(cal2.get(Calendar.DAY_OF_MONTH), cal2.get(Calendar.MONTH), cal2.get(Calendar.YEAR));
+		    	alu.setApolice(rs.getString("Apólice"));
+		    	alu.setPlaca(rs.getString("Placa"));
+		    	alu.setCNH(rs.getString("CNH"));
+
+
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return alu;
+	}
+
+
+	public static List<Aluguel> getAll(){
+		Connection connection = null;
+		PreparedStatement statement;
+		List<Aluguel> aluguel = new ArrayList<>();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Reserva";
+			statement = connection.prepareStatement(query);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Aluguel alu = new Aluguel();
+				alu.setId(Integer.parseInt(rs.getString("ID")));
+				alu.setAvarias(rs.getString("Avarias"));
+
+				String dataRetirada = rs.getString("Data_Ret");
+				@SuppressWarnings("deprecation")
+				Date date = new Date(dataRetirada);
+				Calendar cal = Calendar.getInstance();
+		    	cal.setTime(date);
+		    	alu.setDataRetirada(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+
+		    	String dataEntrega = rs.getString("Data_Ent");
+		    	@SuppressWarnings("deprecation")
+				Date date2 = new Date(dataEntrega);
+				Calendar cal2 = Calendar.getInstance();
+		    	cal.setTime(date2);
+		    	alu.setDataEntrega(cal2.get(Calendar.DAY_OF_MONTH), cal2.get(Calendar.MONTH), cal2.get(Calendar.YEAR));
+
+		    	alu.setApolice(rs.getString("Apolice"));
+		    	alu.setPlaca(rs.getString("Placa"));
+		    	alu.setCNH(rs.getString("CNH"));
+				aluguel.add(alu);
+
+				}
+		} catch (SQLException exception) {
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return aluguel;
+
+	}
+
+	public static void saveAluguel(Aluguel a) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "INSERT INTO `Reserva` (`Avarias`, `Data_Ent`, `Data_Ret`, `Placa`, `CNH`, `Apolice`) "
+					+ "VALUES (?, ?, ?, ?, ?, ?)";
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, a.getAvarias());
+			statement.setString(2, a.getDataEntrega());
+			statement.setString(3, a.getDataRetirada());
+			//statement.setInt(4, a.getId());
+			statement.setString(4, a.getPlaca());
+			statement.setString(5, a.getCNH());
+			statement.setString(6, a.getApolice());
+			statement.executeUpdate();
+			rs = statement.getGeneratedKeys();
 
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		} finally {
-			if (null != resultSet) {
-				resultSet.close();
+			if (null != rs) {
+				rs.close();
 			}
 
 			if (null != statement) {
@@ -235,5 +262,10 @@ public class Aluguel {
 				connection.close();
 			}
 		}
-	}*/
+
+	}
+
+
+
+
 }
