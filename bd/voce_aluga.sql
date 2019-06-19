@@ -13,6 +13,14 @@ CPF numeric(11),
 Email varchar(100),
 primary key (CNH) );
 
+create table Carro (
+Cor varchar(50),
+Marca varchar(50),
+Ano numeric(4),
+KM numeric(6),
+Modelo varchar(50) not null,
+Placa varchar(8), primary key (Placa) );
+
 create table Reserva (
 Avarias varchar(300),
 Data_Ent varchar(10) not null,
@@ -41,11 +49,3 @@ Endereco_1 varchar(50) not null,
 Endereco_2 varchar(50),
 ID numeric(6,0), primary key (ID) );
 
-
-create table Carro (
-Cor varchar(50),
-Marca varchar(50),
-Ano numeric(4),
-KM numeric(6),
-Modelo varchar(50) not null,
-Placa varchar(8), primary key (Placa) );
