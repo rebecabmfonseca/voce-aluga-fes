@@ -33,5 +33,14 @@ height="300px" width="300px"> </td>
         <td> <img src="https://github.com/rebecabmfonseca/voce-aluga-fes/blob/master/imgReadme/TelaCadastroVeiculos.jpg?raw=true" 
 height="300px" width="300px"> </td>
   </tr>
+  <tr>
+    <td> Tela de Aluguel </td><td> Tela de Cadastro de Aluguel </td>
+  </tr>
+  <tr>
+    <td> <img src="https://github.com/rebecabmfonseca/voce-aluga-fes/blob/master/imgReadme/TelaAluguel.jpg?raw=true" 
+height="300px" width="300px"> </td>
+        <td> <img src="https://github.com/rebecabmfonseca/voce-aluga-fes/blob/master/imgReadme/TelaCadastroAluguel.png?raw=true" 
+height="300px" width="300px"> </td>
+  </tr>
 </table>
 
