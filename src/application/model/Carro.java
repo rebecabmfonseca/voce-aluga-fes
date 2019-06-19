@@ -231,6 +231,7 @@ public class Carro {
         return arr;
 	}
 
+	//retorna grupos que contem carros
 	public static List<String> getAllGrupos() {
 		Connection connection = null;
 		PreparedStatement statement;
@@ -272,7 +273,6 @@ public class Carro {
 			while (rs.next()) {
 				carros.add(rs.getString("Marca"));
 			}
-
 			return carros;
 		}
 		catch (SQLException exception) {
@@ -283,21 +283,8 @@ public class Carro {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
-	
-	public static List<String> getAvailableCarOfAGroup(String grupo)	{
-		List<String> carros = new ArrayList<>();
-		carros = Carro.getCarOfAGroup(grupo);
-		
-		for(int i = 0; i < carros.size(); i++) {
-			
-		}
-	}
-
-
-
 
 	public static void updateCar(Carro c) throws SQLException{
 		Connection connection = null;

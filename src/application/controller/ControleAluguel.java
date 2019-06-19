@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import application.model.Aluguel;
 import application.model.Carro;
 import application.model.Cliente;
 import javafx.collections.FXCollections;
@@ -22,8 +23,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.text.Text;
@@ -40,11 +43,15 @@ public class ControleAluguel implements Initializable{
     @FXML
     private TableColumn<?, ?> colCarro;
     @FXML
+    private TableView<Aluguel> table;
+    @FXML
     private Button btnCadastrar;
     @FXML
     private Button btnAlterar;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private Button btnAtualizar;
     @FXML
     private ComboBox<String> comboCliente;
     @FXML
@@ -67,10 +74,29 @@ public class ControleAluguel implements Initializable{
     private List<String> marcaCarros;
     @FXML
     private Text txtErro;
+    
+	public List<Aluguel> listaAluguel = new ArrayList<>();
 
 
     @Override
 	public void initialize(URL location, ResourceBundle resource) {
+		if(location.toString().contains("TelaAluguel")){
+
+//			List<Aluguel> listaCarro = new ArrayList<>();
+//			listaCarro = Aluguel.getAll();
+			
+			colCliente.setCellValueFactory(new PropertyValueFactory<>("Cliente"));
+			colDataRetirada.setCellValueFactory(new PropertyValueFactory<>("DataRet"));
+			colDataEntrega.setCellValueFactory(new PropertyValueFactory<>("DataEnt"));
+			colCarro.setCellValueFactory(new PropertyValueFactory<>("Carro"));
+
+			Aluguel temp = new Aluguel("aa", "bb", "12", "34");
+			listaAluguel.add(temp);
+			Aluguel temp1 = new Aluguel("aAa", "bBb", "132", "374");
+			listaAluguel.add(temp1);
+			ObservableList<Aluguel> lista = FXCollections.observableArrayList(listaAluguel);
+			table.setItems( lista );
+		}
     	if(location.toString().contains("CadastroAluguel")){
 	    	nomeClientes = Cliente.getAllNames();
 	        ObservableList<String> listClientes = FXCollections.observableArrayList(nomeClientes);
@@ -90,9 +116,6 @@ public class ControleAluguel implements Initializable{
 	        ObservableList<String> listSeguros = FXCollections.observableArrayList("Básico","Avançado");
 	        comboSeguro.setItems(listSeguros);
 		}
-    	if(location.toString().contains("TelaAluguel")){
-
-    	}
 
     }
     @FXML
@@ -125,6 +148,7 @@ public class ControleAluguel implements Initializable{
     	}
     }
     
+    //disponibilidade do grupo/upgrade/downgrade
 	@FXML
     void checaDispGrupo(ActionEvent event) {
     	gruposDisp = new ArrayList<>();
@@ -205,6 +229,12 @@ public class ControleAluguel implements Initializable{
     void cancelarAluguel(ActionEvent event) {
     	System.out.println("Clicou no botão cancelar");
     }
+	
+	@FXML
+	void atualizarTable() {
+		ObservableList<Aluguel> lista = FXCollections.observableArrayList(listaAluguel);
+		table.setItems( lista );
+	}
 
 	@FXML
     void salvarAluguel(ActionEvent event) {
@@ -239,6 +269,13 @@ public class ControleAluguel implements Initializable{
 			+"\nCarro:"+comboCarro.getValue()+"\nData Retirada:"+dataRetirada.getValue()
 			+"\nData Entrega:"+dataEntrega.getValue()
 		);
+			Aluguel temp = new Aluguel(comboCliente.getValue(), comboGrupoCarro.getValue(), dataRetirada.getValue().toString(), dataEntrega.getValue().toString());
+			Stage stage = (Stage) idSalvar.getScene().getWindow();
+			stage.close();listaAluguel.add(temp);
+			
+			//System.out.println(temp.getCliente());
+			//System.out.println(listaAluguel.get(0).getCliente()); //printa apenas o cliente recebido deste cadastro, ou seja, a lista que recebe o aluguel eh local
+			
 		}
 
     }

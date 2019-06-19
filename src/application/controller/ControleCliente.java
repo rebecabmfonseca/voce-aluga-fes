@@ -424,7 +424,6 @@ public class ControleCliente implements Initializable{
 	public boolean validarCPF(String cpf)
 	{
 		String CPF = cpf.replaceAll("\\D+", "");
-		//talvez retornar string com tipo de invalidez em caso de invalidez (no caso talvez tenha que usar exception)
 		if (CPF.equals("00000000000") ||
 	            CPF.equals("11111111111") ||
 	            CPF.equals("22222222222") || CPF.equals("33333333333") ||
