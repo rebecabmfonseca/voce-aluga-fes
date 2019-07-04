@@ -56,7 +56,7 @@ public class ControleVeiculo implements Initializable{
     private Button btnAlterar;
     @FXML
     private Button btnRemover;
-    
+
     @FXML
     private ComboBox<String> comboGrupoCarro;
 
@@ -81,11 +81,13 @@ public class ControleVeiculo implements Initializable{
     private TableColumn<Carro, String> ColPlaca;
     @FXML
     private TableColumn<Carro, String> ColGrupo;
+    @FXML
+    private Button btnManutencao;
 
 
     public static Carro carroEditavel;
     private List<String> nomeGrupos;
-   
+
     @FXML
     void irPaginaCadastrar(ActionEvent event) {
     	String path = "application/view/TelaCadastroVeiculo.fxml";
@@ -212,6 +214,36 @@ public class ControleVeiculo implements Initializable{
 		novaPagina(path);
 
 	}
+
+    @FXML
+    void manutencao(ActionEvent event) {
+		String carroSelecionado;
+
+    	if(table.getSelectionModel().getSelectedItem()!= null){
+    		carroSelecionado = table.getSelectionModel().getSelectedItem().getPlaca();
+    	}else{
+
+	    	TextInputDialog dialog = new TextInputDialog();
+	    	dialog.setTitle("Manutenção de Veiculo");
+	    	dialog.setHeaderText("Identificando o Veiculo");
+	    	dialog.setContentText("Por favor, informe a Placa do Veiculo");
+	    	Optional<String> result = dialog.showAndWait();
+	    	carroSelecionado = result.get();
+    	}
+    	Carro c = new Carro();
+    	c = Carro.getCarro(carroSelecionado);
+    	if(c==null){
+    		Alert alert = new Alert(AlertType.ERROR);
+    	   	alert.setTitle("Manutenção de veículo");
+    	   	alert.setHeaderText("");
+    	   	alert.setContentText("Carro não encontrado!");
+    	   	alert.showAndWait();
+    	}else{
+    		//implementar manutenção
+    	}
+
+
+    }
 
 	@FXML
     void removerVeiculo(ActionEvent event) {
@@ -351,4 +383,6 @@ public class ControleVeiculo implements Initializable{
 		txtAno.setText("");
 		comboGrupoCarro.setValue("N");
 	}
+
+
 }
