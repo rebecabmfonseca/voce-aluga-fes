@@ -28,7 +28,7 @@
             <Font name="Fira Code Regular" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="idFinanceiro" layoutX="433.0" layoutY="487.0" mnemonicParsing="false" text="Financeiro">
+      <Button fx:id="idFinanceiro" layoutX="433.0" layoutY="487.0" mnemonicParsing="false" onAction="#irPaginaFinanceiro" style="-fx-background-color: #fcc9c9; -fx-border-color: #f95c5c; -fx-border-radius: 5px;" text="Financeiro">
          <font>
             <Font name="Fira Code Regular" size="19.0" />
          </font>
