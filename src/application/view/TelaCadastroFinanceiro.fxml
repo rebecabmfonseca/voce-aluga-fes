@@ -24,7 +24,7 @@
       <Text layoutX="109.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reserva:" />
       <Text layoutX="109.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma de Pagamento:" />
       <Text layoutX="109.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor:" />
-      <TextField fx:id="txtValor" layoutX="168.0" layoutY="313.0" />
+      <TextField fx:id="txtValor" layoutX="168.0" layoutY="313.0" onKeyReleased="#mascaraValor" />
       <ComboBox fx:id="comboFormaPagamento" layoutX="284.0" layoutY="264.0" prefHeight="26.0" prefWidth="234.0" promptText="Selecione" />
       <ComboBox fx:id="comboReserva" layoutX="197.0" layoutY="215.0" prefHeight="26.0" prefWidth="320.0" promptText="Selecione" />
       <Button fx:id="idSalvar" layoutX="327.0" layoutY="497.0" mnemonicParsing="false" onAction="#salvar" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">

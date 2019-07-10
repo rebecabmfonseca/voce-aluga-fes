@@ -122,6 +122,14 @@ public class ControleFinanceiro implements Initializable{
 
 	}
 
+	public void mascaraValor(){
+		TextFieldFormatter tff = new TextFieldFormatter();
+		tff.setMask("###.##");
+		tff.setCaracteresValidos("0123456789");
+		tff.setTf(txtValor);
+		tff.formatter();
+	}
+
 	  @FXML
 	    void salvar(ActionEvent event) {
 	    	boolean cadastroValido = true;
