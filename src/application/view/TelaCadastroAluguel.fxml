@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleAluguel">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleAluguel">
    <children>
       <ImageView fitHeight="117.0" fitWidth="114.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,34 +22,36 @@
             <Font name="Fira Code Regular" size="21.0" />
          </font>
       </Text>
-      <Text layoutX="32.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente:" />
-      <ComboBox fx:id="comboCliente" layoutX="134.0" layoutY="181.0" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
-      <Text layoutX="33.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seguro:" />
-      <Text layoutX="20.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupo do carro:" />
-      <ComboBox fx:id="comboGrupoCarro" layoutX="135.0" layoutY="287.0" onAction="#checaDispGrupo" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
-      <Text layoutX="33.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carro:" />
-      <ComboBox fx:id="comboCarro" layoutX="135.0" layoutY="338.0" onMouseClicked="#carregaCarrosDeGrupoEspecifico" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
-      <Text layoutX="13.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Retirada:" />
-      <DatePicker fx:id="dataRetirada" layoutX="142.0" layoutY="388.0" prefHeight="26.0" prefWidth="308.0" />
-      <Text layoutX="13.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Entrega:" />
-      <DatePicker fx:id="dataEntrega" layoutX="142.0" layoutY="439.0" prefHeight="26.0" prefWidth="308.0" />
+      <Text layoutX="45.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente:" />
+      <ComboBox fx:id="comboCliente" layoutX="147.0" layoutY="151.0" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
+      <Text layoutX="46.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seguro:" />
+      <Text layoutX="44.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupo do carro:" />
+      <ComboBox fx:id="comboGrupoCarro" layoutX="148.0" layoutY="257.0" onAction="#checaDispGrupo" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
+      <Text layoutX="46.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carro:" />
+      <ComboBox fx:id="comboCarro" layoutX="148.0" layoutY="308.0" onMouseClicked="#carregaCarrosDeGrupoEspecifico" prefHeight="26.0" prefWidth="322.0" promptText="Selecione" />
+      <Text layoutX="46.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Retirada:" />
+      <DatePicker fx:id="dataRetirada" layoutX="147.0" layoutY="360.0" prefHeight="26.0" prefWidth="100.0" />
+      <Text layoutX="269.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Entrega:" />
+      <DatePicker fx:id="dataEntrega" layoutX="370.0" layoutY="360.0" prefHeight="26.0" prefWidth="100.0" />
       <Button fx:id="idSalvar" layoutX="315.0" layoutY="539.0" mnemonicParsing="false" onAction="#salvarAluguel" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnSair" layoutX="75.0" layoutY="539.0" mnemonicParsing="false" style="-fx-background-color: #f29898;" text="Cancelar">
+      <Button fx:id="btnSair" layoutX="75.0" layoutY="539.0" mnemonicParsing="false" onAction="#fecharJanela" style="-fx-background-color: #f29898;" text="Cancelar">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>
       </Button>
-      <Text fx:id="txtErro" layoutX="69.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button ellipsisString="+" layoutX="457.0" layoutY="182.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="0.0" text="Adicionar novo cliente" textAlignment="CENTER" />
-      <Text id="updowngrdTxt" fill="#fc0000" layoutX="135.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="322.0">
+      <Text fx:id="txtErro" layoutX="82.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button ellipsisString="+" layoutX="470.0" layoutY="152.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="0.0" text="Adicionar novo cliente" textAlignment="CENTER" />
+      <Text id="updowngrdTxt" fill="#fc0000" layoutX="148.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="322.0">
          <font>
             <Font size="9.0" />
          </font>
       </Text>
-      <TextField fx:id="txtSeguro" layoutX="134.0" layoutY="235.0" onKeyReleased="#mascaraSeguro" prefWidth="320.0" />
+      <TextField fx:id="txtSeguro" layoutX="147.0" layoutY="205.0" onKeyReleased="#mascaraSeguro" prefWidth="320.0" />
+      <TextField fx:id="txtAvarias" alignment="TOP_LEFT" layoutX="148.0" layoutY="405.0" prefHeight="16.0" prefWidth="322.0" />
+      <Text layoutX="46.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avarias:" />
    </children>
 </AnchorPane>

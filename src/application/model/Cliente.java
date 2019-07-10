@@ -139,6 +139,49 @@ public class Cliente extends Pessoa
 		return null;
 
 	}
+	
+	public static Cliente getClienteCNH(String CNH) {
+		Connection connection = null;
+		PreparedStatement statement;
+		Cliente user = new Cliente();
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Cliente WHERE CNH=?";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CNH); // O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+
+				user.setNome(rs.getString("Nome"));
+				user.setTelefone(rs.getString("Telefone"));
+				user.setEndereco(rs.getString("Endereco"));
+				user.setCEP(rs.getString("CEP"));
+				user.setCNH(rs.getString("CNH"));
+				String data = rs.getString("Data_Nasc");
+				@SuppressWarnings("deprecation")
+				Date date = new Date(data);
+				Calendar cal = Calendar.getInstance();
+		    	cal.setTime(date);
+				user.setDataNasc(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+				user.setCPF(rs.getString("CPF"));
+				user.setEmail(rs.getString("Email"));
+				return user;
+			}
+
+
+		} catch (SQLException exception) {
+
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 
 
 	public static String getCNHbyNome(String nome) {

@@ -23,15 +23,15 @@
       </ImageView>
       <TableView fx:id="table" layoutX="22.0" layoutY="249.0" prefHeight="334.0" prefWidth="562.0">
         <columns>
-          <TableColumn fx:id="colCliente" prefWidth="130.0" text="Cliente" />
-          <TableColumn fx:id="colDataRetirada" prefWidth="130.0" text="Data Retirada" />
-            <TableColumn fx:id="colDataEntrega" prefWidth="130.0" text="Data Entrega" />
-            <TableColumn fx:id="colCarro" prefWidth="130.0" text="Carro" />
+          <TableColumn fx:id="colID" prefWidth="102.0" text="ID" />
+            <TableColumn fx:id="colPlaca" prefWidth="109.0" text="Placa" />
+          <TableColumn fx:id="colDataRetirada" prefWidth="126.0" text="Data Retirada" />
+            <TableColumn fx:id="colDataEntrega" prefWidth="112.0" text="Data Entrega" />
+            <TableColumn fx:id="colCNH" prefWidth="112.0" text="CNH" />
         </columns>
       </TableView>
       <Button fx:id="btnCadastrar" layoutX="58.0" layoutY="201.0" mnemonicParsing="false" onAction="#cadastrarAluguel" text="Cadastrar" />
-      <Button fx:id="btnAlterar" layoutX="192.0" layoutY="201.0" mnemonicParsing="false" onAction="#alterarAluguel" text="Alterar" />
-      <Button fx:id="btnCancelar" layoutX="311.0" layoutY="201.0" mnemonicParsing="false" onAction="#cancelarAluguel" text="Cancelar" />
-      <Button fx:id="btnAtualizar" layoutX="449.0" layoutY="201.0" mnemonicParsing="false" onAction="#atualizarTable" text="Atualizar" />
+      <Button fx:id="btnAlterar" layoutX="274.0" layoutY="201.0" mnemonicParsing="false" onAction="#alterarAluguel" text="Alterar" />
+      <Button fx:id="btnRemover" layoutX="475.0" layoutY="201.0" mnemonicParsing="false" onAction="#removerAluguel" text="Remover" />
    </children>
 </AnchorPane>

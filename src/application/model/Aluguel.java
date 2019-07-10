@@ -22,6 +22,8 @@ public class Aluguel {
 	String placa;
 	String CNH;
 	String apolice;
+	String dataRet; //data formatada
+	String dataEnt; //data formatada
 
 	public Aluguel(){
 
@@ -70,23 +72,34 @@ public class Aluguel {
 	}
 
 	public String getDataEntrega() {
-		return this.diaEntrega+"/"+this.mesEntrega+"/"+this.anoEntrega;
+		return dataEnt;
 	}
 	public void setDataEntrega(int dia, int mes, int ano){
 		this.diaEntrega = dia;
 		this.mesEntrega = mes;
 		this.anoEntrega = ano;
+		this.dataEnt = String.format(dia+"/"+mes+"/"+ano);
+	}
+	
+	public void setDataEntrega(String data) {
+		this.dataEnt = data;
 	}
 
 	public String getDataRetirada() {
-		return this.diaRetirada+"/"+this.mesRetirada+"/"+this.anoRetirada;
+		return dataRet;
 	}
 
 	public void setDataRetirada(int dia, int mes, int ano) {
 		this.diaRetirada = dia;
 		this.mesRetirada = mes;
 		this.anoRetirada = ano;
+		this.dataRet = String.format(dia+"/"+mes+"/"+ano);
 	}
+	
+	public void setDataRetirada(String data) {
+		this.dataRet = data;
+	}
+	
 	public String getPlaca() {
 		return this.placa;
 	}
@@ -116,7 +129,7 @@ public class Aluguel {
 		PreparedStatement statement = null;
 		try {
 			connection = Database.getDBConnection();
-			String query = "DELETE FROM Reservas WHERE ID=?";
+			String query = "DELETE FROM Reserva WHERE ID=?";
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, id);
 
@@ -142,7 +155,7 @@ public class Aluguel {
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "SELECT * FROM Reservas WHERE ID=?";
+			String query = "SELECT * FROM Reserva WHERE ID=?";
 			statement = connection.prepareStatement(query);
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
@@ -151,23 +164,11 @@ public class Aluguel {
 				alu = new Aluguel();
 				alu.setId(Integer.parseInt(rs.getString("ID")));
 				alu.setAvarias(rs.getString("Avarias"));
-				String dataRetirada = rs.getString("Data_Ret");
-				@SuppressWarnings("deprecation")
-				Date date = new Date(dataRetirada);
-				Calendar cal = Calendar.getInstance();
-		    	cal.setTime(date);
-		    	alu.setDataRetirada(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
-		    	String dataEntrega = rs.getString("Data_Ent");
-				@SuppressWarnings("deprecation")
-				Date date2 = new Date(dataEntrega);
-				Calendar cal2 = Calendar.getInstance();
-		    	cal.setTime(date2);
-		    	alu.setDataRetirada(cal2.get(Calendar.DAY_OF_MONTH), cal2.get(Calendar.MONTH), cal2.get(Calendar.YEAR));
-		    	alu.setApolice(rs.getString("Apólice"));
+				alu.setDataRetirada(rs.getString("Data_Ret"));
+				alu.setDataEntrega(rs.getString("Data_Ent"));
+		    	alu.setApolice(rs.getString("Apolice"));
 		    	alu.setPlaca(rs.getString("Placa"));
 		    	alu.setCNH(rs.getString("CNH"));
-
-
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -177,7 +178,35 @@ public class Aluguel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(alu);
 		return alu;
+	}
+	
+	public static int getReserva(String CNH, String Placa){
+		Connection connection = null;
+		PreparedStatement statement;
+		int idReserva = 0;
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT ID FROM Reserva WHERE CNH=? AND Placa=? LIMIT 1";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CNH);
+			statement.setString(2, Placa);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				idReserva = rs.getInt("ID");
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		try {
+			connection.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return idReserva;
 	}
 
 
@@ -196,25 +225,13 @@ public class Aluguel {
 				alu.setId(Integer.parseInt(rs.getString("ID")));
 				alu.setAvarias(rs.getString("Avarias"));
 
-				String dataRetirada = rs.getString("Data_Ret");
-				@SuppressWarnings("deprecation")
-				Date date = new Date(dataRetirada);
-				Calendar cal = Calendar.getInstance();
-		    	cal.setTime(date);
-		    	alu.setDataRetirada(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
-
-		    	String dataEntrega = rs.getString("Data_Ent");
-		    	@SuppressWarnings("deprecation")
-				Date date2 = new Date(dataEntrega);
-				Calendar cal2 = Calendar.getInstance();
-		    	cal.setTime(date2);
-		    	alu.setDataEntrega(cal2.get(Calendar.DAY_OF_MONTH), cal2.get(Calendar.MONTH), cal2.get(Calendar.YEAR));
+				alu.setDataRetirada(rs.getString("Data_Ret"));
+				alu.setDataEntrega(rs.getString("Data_Ent"));
 
 		    	alu.setApolice(rs.getString("Apolice"));
 		    	alu.setPlaca(rs.getString("Placa"));
 		    	alu.setCNH(rs.getString("CNH"));
 				aluguel.add(alu);
-
 				}
 		} catch (SQLException exception) {
 		}
@@ -264,8 +281,44 @@ public class Aluguel {
 		}
 
 	}
+	
+	public static void updateAluguel(Aluguel a) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "update Aluguel set Avarias=?, Data_Ent=?, Data_Ret=?, Placa=?, CNH=?, Apolice=? where ID=?";
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, a.getAvarias());
+			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
+			statement.setString(2, a.getDataEntrega());
+			statement.setString(3, a.getDataRetirada());
+			statement.setString(4, a.getPlaca());
+			statement.setString(5, a.getCNH());
+			statement.setString(6, a.getApolice());
+			statement.executeUpdate();
+			resultSet = statement.getGeneratedKeys();
+			System.out.println("atualizou");
+
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			if (null != resultSet) {
+				resultSet.close();
+			}
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
 
 
-
+	}
 
 }
