@@ -177,6 +177,7 @@ public class Aluguel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(alu);
 		return alu;
 	}
 
@@ -262,6 +263,34 @@ public class Aluguel {
 				connection.close();
 			}
 		}
+
+	}
+
+	public static int getReserva(String CNH, String Placa){
+		Connection connection = null;
+		PreparedStatement statement;
+		int idReserva = 0;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT ID FROM Reserva WHERE CNH=? AND Placa=? LIMIT 1";
+			statement = connection.prepareStatement(query);
+			statement.setString(1, CNH);
+			statement.setString(2, Placa);
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+				idReserva = rs.getInt("ID");
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return idReserva;
 
 	}
 
