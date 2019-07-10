@@ -74,17 +74,17 @@ public class ControleAluguel implements Initializable{
     private TextField txtSeguro;
     @FXML
     private TextField txtAvarias;
-    
+
     private List<String> nomeClientes;
     private List<String> nomeGrupos;
     private List<String> gruposDisp;
     private List<String> marcaCarros;
-    
+
     @FXML
     private Text txtErro;
 
 	public List<Aluguel> listaAluguel = new ArrayList<>();
-	
+
     public static Aluguel aluguelEditavel = null;
 
 
@@ -97,7 +97,7 @@ public class ControleAluguel implements Initializable{
 			//System.out.println(listaAluguel);s
 			if(listaAluguel != null){
 				colCNH.setCellValueFactory(new PropertyValueFactory<>("CNH"));
-				colDataRetirada.setCellValueFactory(new PropertyValueFactory<>("Data_Ret"));
+				colDataRetirada.setCellValueFactory(new PropertyValueFactory<>("DataRet"));
 				colDataEntrega.setCellValueFactory(new PropertyValueFactory<>("Data_Ent"));
 				colPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
 				colID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -121,7 +121,7 @@ public class ControleAluguel implements Initializable{
 
 	        ObservableList<String> listGrupos = FXCollections.observableArrayList(nomeGrupos);
 	        comboGrupoCarro.setItems(listGrupos);
-	        
+
 	        if(aluguelEditavel!=null) {
 	        	comboCliente.setValue(Cliente.getClienteCNH(aluguelEditavel.getCNH()).getNome());
 	        	txtSeguro.setText(aluguelEditavel.getApolice());
@@ -213,7 +213,7 @@ public class ControleAluguel implements Initializable{
 	@FXML
     void alterarAluguel(ActionEvent event) {
     	System.out.println("Clicou no botÃ£o alterar");
-    	
+
     	int idSelecionado;
 
     	if(table.getSelectionModel().getSelectedItem()!= null){
@@ -231,7 +231,7 @@ public class ControleAluguel implements Initializable{
 	    	Alert alert = new Alert(AlertType.ERROR);
 	    	alert.setTitle("Editar Aluguel");
 	    	alert.setHeaderText("");
-	    	alert.setContentText("Aluguel não encontrado!");
+	    	alert.setContentText("Aluguel nï¿½o encontrado!");
 	    	alert.showAndWait();
     	}else{
     	   	irPaginaEditar(aluguelEditavel);
@@ -261,7 +261,7 @@ public class ControleAluguel implements Initializable{
 			e.printStackTrace();
 		}
 	}
-    
+
 	public void novaPagina(String path, Aluguel aluguel){
 
 		try {
@@ -279,7 +279,7 @@ public class ControleAluguel implements Initializable{
 			e.printStackTrace();
 		}
 	}
-    
+
     void irPaginaEditar(Aluguel aluguel) {
     	String path = "application/view/TelaCadastroAluguel.fxml";
 		novaPagina(path,  aluguel);
@@ -292,11 +292,11 @@ public class ControleAluguel implements Initializable{
 		tff.setTf(txtSeguro);
 		tff.formatter();
 	}
-    
+
 	@FXML
     void removerAluguel(ActionEvent event) {
     	System.out.println("Clicou no botÃ£o remover!");
-    	
+
     	int idSelecionado;
 
     	if(table.getSelectionModel().getSelectedItem()!= null){
@@ -315,7 +315,7 @@ public class ControleAluguel implements Initializable{
     	   	Alert alert = new Alert(AlertType.ERROR);
     	   	alert.setTitle("Remover Aluguel");
     	   	alert.setHeaderText("");
-    	   	alert.setContentText("Aluguel não encontrado!");
+    	   	alert.setContentText("Aluguel nï¿½o encontrado!");
     	   	alert.showAndWait();
     	}else{
     		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -340,13 +340,13 @@ public class ControleAluguel implements Initializable{
     		}
     	}
     }
-	
+
 	@FXML
 	public void fecharJanela(){
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sair do Cadastro");
 		alert.setHeaderText("Sair do Cadastro");
-		alert.setContentText("Os dados serão perdidos, tem certeza?");
+		alert.setContentText("Os dados serï¿½o perdidos, tem certeza?");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
@@ -404,7 +404,7 @@ public class ControleAluguel implements Initializable{
 				 	stage.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}				
+				}
 			} else {
 				try{
 					Aluguel.updateAluguel(alu);
@@ -417,10 +417,10 @@ public class ControleAluguel implements Initializable{
 				 	stage.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}	
+				}
 			}
 		}
 
     }
-	
+
 }

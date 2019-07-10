@@ -80,7 +80,7 @@ public class Aluguel {
 		this.anoEntrega = ano;
 		this.dataEnt = String.format(dia+"/"+mes+"/"+ano);
 	}
-	
+
 	public void setDataEntrega(String data) {
 		this.dataEnt = data;
 	}
@@ -95,11 +95,11 @@ public class Aluguel {
 		this.anoRetirada = ano;
 		this.dataRet = String.format(dia+"/"+mes+"/"+ano);
 	}
-	
+
 	public void setDataRetirada(String data) {
 		this.dataRet = data;
 	}
-	
+
 	public String getPlaca() {
 		return this.placa;
 	}
@@ -253,7 +253,7 @@ public class Aluguel {
 		}
 
 	}
-	
+
 	public static void updateAluguel(Aluguel a) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -261,7 +261,7 @@ public class Aluguel {
 
 		try {
 			connection = Database.getDBConnection();
-			String query = "update Aluguel set Avarias=?, Data_Ent=?, Data_Ret=?, Placa=?, CNH=?, Apolice=? where ID=?";
+			String query = "update Reserva set Avarias=?, Data_Ent=?, Data_Ret=?, Placa=?, CNH=?, Apolice=? where ID=?";
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, a.getAvarias());
 			// O parametro 1 faz referencia ao ? da string query. caso 2 ?, teriamos um setString pro primeiro e outro pro segundo
@@ -270,6 +270,8 @@ public class Aluguel {
 			statement.setString(4, a.getPlaca());
 			statement.setString(5, a.getCNH());
 			statement.setString(6, a.getApolice());
+			statement.setInt(7, a.getId());
+
 			statement.executeUpdate();
 			resultSet = statement.getGeneratedKeys();
 			System.out.println("atualizou");
@@ -280,7 +282,7 @@ public class Aluguel {
 			if (null != resultSet) {
 				resultSet.close();
 			}
-			
+
 			if (null != statement) {
 				statement.close();
 			}

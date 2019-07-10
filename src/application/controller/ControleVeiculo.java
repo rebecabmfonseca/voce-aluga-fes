@@ -345,7 +345,7 @@ public class ControleVeiculo implements Initializable{
 					Carro.saveCarro(c);
 					limparCampos();
 					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dados do Cliente");
+					alert.setTitle("Carro");
 					alert.setHeaderText(null);
 					alert.setContentText("Cadastro realizado com sucesso!");
 					alert.showAndWait();
@@ -362,7 +362,7 @@ public class ControleVeiculo implements Initializable{
 					limparCampos();
 					carroEditavel = null;
 					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dados do Cliente");
+					alert.setTitle("Carro");
 					alert.setHeaderText(null);
 					alert.setContentText("Cadastro atualizado com sucesso!");
 					alert.showAndWait();

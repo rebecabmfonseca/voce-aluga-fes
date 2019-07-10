@@ -26,7 +26,7 @@
       </ImageView>
       <TableView fx:id="tableCliente" layoutX="19.0" layoutY="246.0" prefHeight="300.0" prefWidth="562.0">
         <columns>
-          <TableColumn fx:id="nomeCol" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Nome" />
+          <TableColumn fx:id="nomeCol" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" text="Nome" />
           <TableColumn fx:id="CPFCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="CPF" />
             <TableColumn fx:id="CNHCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="CNH" />
             <TableColumn fx:id="EmailCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Email" />
