@@ -217,7 +217,9 @@ public class ControleVeiculo implements Initializable{
 
     @FXML
     void manutencao(ActionEvent event) {
-		String carroSelecionado;
+    	String path = "application/view/TelaManutencaoCarro.fxml";
+    	novaPagina(path);
+		/*String carroSelecionado;
 
     	if(table.getSelectionModel().getSelectedItem()!= null){
     		carroSelecionado = table.getSelectionModel().getSelectedItem().getPlaca();
@@ -240,7 +242,7 @@ public class ControleVeiculo implements Initializable{
     	   	alert.showAndWait();
     	}else{
     		//implementar manutenção
-    	}
+    	}*/
 
 
     }
