@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.model.Carro;
@@ -17,11 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -167,6 +170,49 @@ public class ControleManutencao implements Initializable{
 
     @FXML
     void removeManutencao(ActionEvent event) {
+    	int manutencaoSelecionada;
+
+    	if(table.getSelectionModel().getSelectedItem()!= null){
+    		manutencaoSelecionada = table.getSelectionModel().getSelectedItem().getIdManutencao();
+    	}else{
+
+	    	TextInputDialog dialog = new TextInputDialog();
+	    	dialog.setTitle("Manutenção");
+	    	dialog.setHeaderText("Identificando a manutenção");
+	    	dialog.setContentText("Por favor, informe o ID da Manutenção");
+	    	Optional<String> result = dialog.showAndWait();
+	    	manutencaoSelecionada = Integer.parseInt(result.get());
+    	}
+    	Manutencao m = new Manutencao();
+    	m = Manutencao.getManutencao(manutencaoSelecionada);
+    	if(m==null){
+    		Alert alert = new Alert(AlertType.ERROR);
+    	   	alert.setTitle("Remover Manutenção");
+    	   	alert.setHeaderText("");
+    	   	alert.setContentText("Manutenção não encontrada!");
+    	   	alert.showAndWait();
+    	}else{
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+    		alert.setTitle("Remover Manutenção");
+    		alert.setHeaderText(null);
+    		alert.setContentText("Tem certeza que quer essa manutenção ?");
+
+    		Optional<ButtonType> result = alert.showAndWait();
+    		if (result.get() == ButtonType.OK){
+    			try {
+    				Manutencao.removemanutencao(manutencaoSelecionada);
+        			Alert alerta = new Alert(AlertType.INFORMATION);
+        			alerta.setTitle("Manutenção");
+        			alerta.setHeaderText(null);
+        			alerta.setContentText("Removido com sucesso!");
+       				alerta.showAndWait();
+        			} catch (SQLException e) {
+        				e.printStackTrace();
+        			}
+
+    		}
+
+    	}
 
     }
 

@@ -125,6 +125,62 @@ public class Manutencao {
 	}
 
 
+	public static Manutencao getManutencao(int idManutencao) {
+		Connection connection = null;
+		PreparedStatement statement;
+		Manutencao m =null;
+
+		try {
+			connection = Database.getDBConnection();
+			String query = "SELECT * FROM Manutencao WHERE ID_Manutencao=?";
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, idManutencao);
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+				m = new Manutencao();
+				m.setDataInicio(rs.getString("Data_Inicio"));
+				m.setDataPrevisao(rs.getString("Data_Previsao"));
+				m.setDescricao(rs.getString("Descricao"));
+				m.setIdManutencao(idManutencao);
+				m.setPlaca(rs.getString("Placa"));
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return m;
+	}
+
+
+	public static void removemanutencao(int id) throws SQLException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = Database.getDBConnection();
+			String query = "DELETE FROM Manutencao WHERE ID_Manutencao=?";
+			statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+
+			statement.executeUpdate();
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+
+			if (null != statement) {
+				statement.close();
+			}
+
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+
 
 
 }
