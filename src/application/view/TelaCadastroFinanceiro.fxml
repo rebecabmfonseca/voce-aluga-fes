@@ -9,8 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="application.controller.ControleFinanceiro">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #fcc9c9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ControleFinanceiro">
    <children>
       <Text layoutX="199.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tela Cadastro de Financeiro">
          <font>
@@ -25,10 +24,10 @@
       <Text layoutX="109.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reserva:" />
       <Text layoutX="109.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma de Pagamento:" />
       <Text layoutX="109.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor:" />
-      <TextField fx:id="txtValor" layoutX="168.0" layoutY="313.0" />
-      <ComboBox fx:id="comboFormaPagamento" layoutX="284.0" layoutY="264.0" prefHeight="26.0" prefWidth="234.0" />
-      <ComboBox fx:id="comboReserva" layoutX="197.0" layoutY="215.0" prefHeight="26.0" prefWidth="320.0" />
-      <Button fx:id="idSalvar" layoutX="327.0" layoutY="497.0" mnemonicParsing="false" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
+      <TextField fx:id="txtValor" layoutX="168.0" layoutY="313.0" onKeyReleased="#mascaraValor" />
+      <ComboBox fx:id="comboFormaPagamento" layoutX="284.0" layoutY="264.0" prefHeight="26.0" prefWidth="234.0" promptText="Selecione" />
+      <ComboBox fx:id="comboReserva" layoutX="197.0" layoutY="215.0" prefHeight="26.0" prefWidth="320.0" promptText="Selecione" />
+      <Button fx:id="idSalvar" layoutX="327.0" layoutY="497.0" mnemonicParsing="false" onAction="#salvar" prefWidth="211.0" style="-fx-background-color: #91a4f2;" text="Salvar" underline="true">
          <font>
             <Font name="Fira Code Regular" size="18.0" />
          </font>
@@ -38,5 +37,6 @@
             <Font name="Fira Code Regular" size="18.0" />
          </font>
       </Button>
+      <Text fx:id="txtErro" layoutX="114.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

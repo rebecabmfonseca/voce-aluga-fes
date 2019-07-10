@@ -49,3 +49,12 @@ Endereco_1 varchar(50) not null,
 Endereco_2 varchar(50),
 ID numeric(6,0), primary key (ID) );
 
+create table Financeiro(
+    ID_Financeiro INT(11) AUTO_INCREMENT,
+    ID_Reserva INT(11),
+    Forma_Pagamento varchar(50),
+    valor varchar(30),
+    primary key(ID_Financeiro),
+    foreign key (ID_Reserva) references Reserva(ID)
+);
+
